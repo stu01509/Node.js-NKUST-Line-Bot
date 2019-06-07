@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "linebot": "^1.5.1",
     "nodemon": "^1.19.1"
   },
   "devDependencies": {
