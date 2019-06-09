@@ -31,8 +31,8 @@ const courseOptions = {
   form: courseInfo,
 };
 
-const getCourse = () => {
-  request(loginOptions, (loginErr, loginRes) => {
+const getCourse = async () => {
+  await request(loginOptions, (loginErr, loginRes) => {
     if (loginErr || loginRes.statusCode !== 200) {
       return;
     }
@@ -40,7 +40,12 @@ const getCourse = () => {
       if (err || res.statusCode !== 200) {
         return;
       }
-      console.log(body);
+      const $ = cheerio.load(body);
+      $('body > table td').each((index, title) => {
+        console.log($(title).text());
+      });
     });
   });
 };
+
+getCourse();
