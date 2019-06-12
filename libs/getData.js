@@ -1,11 +1,16 @@
 let request = require('request');
 const cheerio = require('cheerio');
 
-const LOGIN_URL = 'https://webap.nkust.edu.tw/nkust/perchk.jsp';
-const COURSE_URL = 'https://webap.nkust.edu.tw/nkust/ag_pro/ag222.jsp';
-const LEAVE_URL = 'https://webap.nkust.edu.tw/nkust/ak_pro/ak002_01.jsp';
+const BASE_URL = 'https://webap.nkust.edu.tw/nkust/';
+const LOGIN_URL = `${BASE_URL}perchk.jsp`;
+const COURSE_URL = `${BASE_URL}ag_pro/ag222.jsp`;
+const LEAVE_URL = `${BASE_URL}ak_pro/ak002_01.jsp`;
+const SCORE_URL = `${BASE_URL}ag_pro/ag008.jsp`;
+
 // enable cookie to pass next request
-request = request.defaults({ jar: true });
+request = request.defaults({
+  jar: true,
+});
 
 const loginInfo = {
   'uid': '',
@@ -20,6 +25,12 @@ const courseInfo = {
 };
 
 const leaveInfo = {
+  'yms': '107,2',
+  'arg01': '107',
+  'arg02': '2',
+};
+
+const scoreInfo = {
   'yms': '107,2',
   'arg01': '107',
   'arg02': '2',
@@ -40,43 +51,89 @@ const courseOptions = {
 const leaveOptions = {
   url: LEAVE_URL,
   method: 'POST',
-  form: courseInfo,
+  form: leaveInfo,
 };
 
-const getCourse = async () => {
-  await request(loginOptions, (loginErr, loginRes) => {
+const scoreOptions = {
+  url: SCORE_URL,
+  method: 'POST',
+  form: scoreInfo,
+};
+
+const getCourse = () => new Promise((resolve, reject) => {
+  request(loginOptions, (loginErr, loginRes) => {
     if (loginErr || loginRes.statusCode !== 200) {
+      reject();
       return;
     }
     request(courseOptions, (err, res, body) => {
       if (err || res.statusCode !== 200) {
+        reject();
         return;
       }
       const $ = cheerio.load(body);
+      let result = '';
       $('body > table td').each((index, title) => {
         console.log($(title).text());
+        // if (index % 8 === 2) {
+        //   if ($(title).text().trim().length === 0) {
+        //     result += '無\r\n';
+        //   } else {
+        //     result += $(title).text() + '\r\n';
+        //   }
+        // }
       });
+      resolve(result);
     });
   });
-};
+});
 
-// getCourse();
-
-const getLeave = () => {
+const getLeave = () => new Promise((resolve, reject) => {
   request(loginOptions, (loginErr, loginRes) => {
     if (loginErr || loginRes.statusCode !== 200) {
+      reject();
       return;
     }
     request(leaveOptions, (err, res, body) => {
       if (err || res.statusCode !== 200) {
+        reject();
         return;
       }
       const $ = cheerio.load(body);
+      let result = '';
       $('body > table.LoginTable td').each((index, title) => {
         console.log($(title).text());
       });
+      resolve(result);
     });
   });
-};
+});
 
-getLeave();
+const getScore = () => new Promise((resolve, reject) => {
+  request(loginOptions, (loginErr, loginRes) => {
+    if (loginErr || loginRes.statusCode !== 200) {
+      reject();
+      return;
+    }
+    request(scoreOptions, (err, res, body) => {
+      if (err || res.statusCode !== 200) {
+        reject();
+        return;
+      }
+      const $ = cheerio.load(body);
+      let result = '';
+      $('body > form > table > tbody > tr > td').each((index, title) => {
+        if (index > 8) {
+          if (index % 9 === 1) {
+            console.log($(title).text());
+          }
+        }
+      });
+      resolve(result);
+    });
+  });
+});
+
+module.exports.getCourse = getCourse;
+module.exports.getLeave = getLeave;
+module.exports.getScore = getScore;
