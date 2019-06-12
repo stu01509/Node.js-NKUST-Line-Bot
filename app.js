@@ -1,5 +1,12 @@
 const linebot = require('linebot');
+let request = require('request');
 
+const getData = require('./libs/getData');
+
+// enable cookie to pass next request
+request = request.defaults({
+  jar: true,
+});
 // Loading Config
 require('dotenv').config();
 
@@ -20,12 +27,22 @@ bot.on('follow', (event) => {
     });
 });
 
-
 bot.on('message', (event) => {
   const userText = event.message.text;
+  console.log(event.source.userId);
 
   switch (userText) {
     case funcList[0]:
+      getData.getCourse()
+        .then((msg) => {
+          bot.push(event.source.userId, msg)
+            .then((data) => {
+              console.log('Then Success', data);
+            })
+            .catch((error) => {
+              console.log('Then Error', error);
+            });
+        });
       break;
     case funcList[1]:
       break;
