@@ -13,6 +13,7 @@
     "cheerio": "^1.0.0-rc.3",
     "dotenv": "^8.0.0",
     "linebot": "^1.5.1",
+    "mongoose": "^5.5.15",
     "nodemon": "^1.19.1",
     "request": "^2.88.0"
   },
