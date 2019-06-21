@@ -1,23 +1,26 @@
 const linebot = require('linebot');
-let request = require('request');
 
 const getData = require('./libs/getData');
 
-// enable cookie to pass next request
-request = request.defaults({
-  jar: true,
-});
 // Loading Config
 require('dotenv').config();
 
+// Import MongoDB Connect Modules
+const conn = require('./libs/mongodb');
 
 const funcList = ['個人課表', '下節課在哪', '曠課/請假紀錄', '成績查詢', '天氣狀態', '公車查詢'];
+
 // Confing Line Bot
 const bot = linebot({
   channelId: process.env.channelId,
   channelSecret: process.env.channelSecret,
   channelAccessToken: process.env.channelAccessToken,
 });
+
+// Connect MongoDB
+(async () => {
+  await conn.connect();
+})();
 
 // Line Bot added greeting message
 bot.on('follow', (event) => {
@@ -29,19 +32,33 @@ bot.on('follow', (event) => {
 
 bot.on('message', (event) => {
   const userText = event.message.text;
-  console.log(event.source.userId);
 
   switch (userText) {
     case funcList[0]:
-      getData.getCourse()
+      getData.userLogin(event.source.userId)
         .then((msg) => {
-          bot.push(event.source.userId, msg)
-            .then((data) => {
-              console.log('Then Success', data);
-            })
-            .catch((error) => {
-              console.log('Then Error', error);
-            });
+          if (msg === '找不到拉') {
+            bot.push(event.source.userId, msg)
+              .then((data) => {
+                console.log('Then Success', data);
+              })
+              .catch((error) => {
+                console.log('Then Error', error);
+              });
+          } else {
+            getData.getCourse()
+              .then((msg) => {
+                bot.push(event.source.userId, msg)
+                  .then((data) => {
+                    console.log('Then Success', data);
+                  })
+                  .catch((error) => {
+                    console.log('Then Error', error);
+                  });
+              });
+          }
+        }).catch((err) => {
+
         });
       break;
     case funcList[1]:
