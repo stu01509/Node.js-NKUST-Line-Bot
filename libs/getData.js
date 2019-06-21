@@ -7,6 +7,8 @@ const COURSE_URL = `${BASE_URL}ag_pro/ag222.jsp`;
 const LEAVE_URL = `${BASE_URL}ak_pro/ak002_01.jsp`;
 const SCORE_URL = `${BASE_URL}ag_pro/ag008.jsp`;
 
+const UserSchema = require('../schema/user/User');
+
 // enable cookie to pass next request
 request = request.defaults({
   jar: true,
@@ -60,6 +62,22 @@ const scoreOptions = {
   form: scoreInfo,
 };
 
+const userLogin = userId => new Promise((resolve, reject) => {
+  UserSchema.findOne({
+    userId,
+  }).exec((err, result) => {
+    if (err) {
+      console.log(err);
+    } else if (result === null) {
+      resolve('找不到拉');
+    } else {
+      loginInfo.uid = result.uid;
+      loginInfo.pwd = result.pwd;
+      resolve();
+    }
+  });
+});
+
 const getCourse = () => new Promise((resolve, reject) => {
   request(loginOptions, (loginErr, loginRes) => {
     if (loginErr || loginRes.statusCode !== 200) {
@@ -75,13 +93,13 @@ const getCourse = () => new Promise((resolve, reject) => {
       let result = '';
       $('body > table td').each((index, title) => {
         console.log($(title).text());
-        // if (index % 8 === 2) {
-        //   if ($(title).text().trim().length === 0) {
-        //     result += '無\r\n';
-        //   } else {
-        //     result += $(title).text() + '\r\n';
-        //   }
-        // }
+        if (index % 8 === 2) {
+          if ($(title).text().trim().length === 0) {
+            result += '無\r\n';
+          } else {
+            result += $(title).text() + '\r\n';
+          }
+        }
       });
       resolve(result);
     });
@@ -137,3 +155,4 @@ const getScore = () => new Promise((resolve, reject) => {
 module.exports.getCourse = getCourse;
 module.exports.getLeave = getLeave;
 module.exports.getScore = getScore;
+module.exports.userLogin = userLogin;
