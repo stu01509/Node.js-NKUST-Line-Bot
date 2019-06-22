@@ -79,14 +79,13 @@ const getCourse = () => new Promise((resolve, reject) => {
         return;
       }
       const $ = cheerio.load(body);
-      let result = '';
+      const result = [];
       $('body > table td').each((index, title) => {
-        console.log($(title).text());
-        if (index % 8 === 2) {
+        if (index > 15) {
           if ($(title).text().trim().length === 0) {
-            result += '無\r\n';
+            result.push('無');
           } else {
-            result += $(title).text() + '\r\n';
+            result.push($(title).text());
           }
         }
       });
