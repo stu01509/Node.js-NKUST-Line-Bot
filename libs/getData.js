@@ -19,20 +19,8 @@ const loginInfo = {
   'pwd': '',
 };
 
-const courseInfo = {
+const semesterInfo = {
   // yms not necessary
-  'yms': '107,2',
-  'arg01': '107',
-  'arg02': '2',
-};
-
-const leaveInfo = {
-  'yms': '107,2',
-  'arg01': '107',
-  'arg02': '2',
-};
-
-const scoreInfo = {
   'yms': '107,2',
   'arg01': '107',
   'arg02': '2',
@@ -47,19 +35,19 @@ const loginOptions = {
 const courseOptions = {
   url: COURSE_URL,
   method: 'POST',
-  form: courseInfo,
+  form: semesterInfo,
 };
 
 const leaveOptions = {
   url: LEAVE_URL,
   method: 'POST',
-  form: leaveInfo,
+  form: semesterInfo,
 };
 
 const scoreOptions = {
   url: SCORE_URL,
   method: 'POST',
-  form: scoreInfo,
+  form: semesterInfo,
 };
 
 const userLogin = userId => new Promise((resolve, reject) => {
@@ -68,8 +56,9 @@ const userLogin = userId => new Promise((resolve, reject) => {
   }).exec((err, result) => {
     if (err) {
       console.log(err);
+      reject();
     } else if (result === null) {
-      resolve('找不到拉');
+      resolve('請先登入取得資料');
     } else {
       loginInfo.uid = result.uid;
       loginInfo.pwd = result.pwd;
@@ -151,6 +140,7 @@ const getScore = () => new Promise((resolve, reject) => {
     });
   });
 });
+
 
 module.exports.getCourse = getCourse;
 module.exports.getLeave = getLeave;
