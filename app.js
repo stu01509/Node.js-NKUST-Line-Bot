@@ -1,6 +1,7 @@
 const linebot = require('linebot');
 
 const getData = require('./libs/getData');
+const userData = require('./libs/userData');
 
 // Loading Config
 require('dotenv').config();
@@ -32,12 +33,24 @@ bot.on('follow', (event) => {
 
 bot.on('message', (event) => {
   const userText = event.message.text;
+  const account = userText.split('\n')[0];
+  const passwd = userText.split('\n')[1];
+  userData.userCrete(event.source.userId, account, passwd)
+    .then((msg) => {
+      bot.push(event.source.userId, msg)
+        .then((data) => {
+          console.log('Then Success', data);
+        })
+        .catch((error) => {
+          console.log('Then Error', error);
+        });
+    });
 
   switch (userText) {
     case funcList[0]:
       getData.userLogin(event.source.userId)
         .then((msg) => {
-          if (msg === '找不到拉') {
+          if (msg === '請先登入取得資料') {
             bot.push(event.source.userId, msg)
               .then((data) => {
                 console.log('Then Success', data);
@@ -71,16 +84,12 @@ bot.on('message', (event) => {
       break;
     case funcList[5]:
       break;
+    case '登入': {
+      break;
+    }
 
     default:
   }
-
-  event.reply(event.message.text)
-    .then((data) => {
-      console.log('Success', data);
-    }).catch((error) => {
-      console.log('Error', error);
-    });
 });
 
 bot.listen('/callback', 3000, () => {
