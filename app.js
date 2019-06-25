@@ -97,10 +97,10 @@ bot.on('message', (event) => {
               });
           } else {
             getData.getScore()
-              .then((scoreResult, rankResult) => {
-                messageTemplate.setScoreMessage(scoreResult, rankResult)
+              .then((scoreResult) => {
+                messageTemplate.setScoreMessage(scoreResult[0], scoreResult[1])
                   .then((scoreMessage) => {
-                    console.log(scoreMessage);                   
+                    console.log(scoreMessage);
                     bot.push(event.source.userId, scoreMessage)
                       .then((data) => {
                         console.log('Then Success', data);
