@@ -81,6 +81,7 @@ const getCourse = () => new Promise((resolve, reject) => {
       const $ = cheerio.load(body);
       const result = [];
       $('body > table td').each((index, title) => {
+        // 跳過上方標題欄位
         if (index > 15) {
           if ($(title).text().trim().length === 0) {
             result.push('無');
@@ -110,7 +111,10 @@ const getScore = () => new Promise((resolve, reject) => {
       // 操行成績 班排
       let rank = '';
       $('body > form > table > caption > div').each((index, title) => {
-        rank = $(title).text();
+        // rank[0] 操行成績 總平均
+        rank = $(title).text().split('班名次/班人數：');
+        // rank[1] 班排 班排比
+        rank[1] = `班名次/班人數：${rank[1]}`;
       });
 
       $('body > form > table > tbody > tr > td').each((index, title) => {
