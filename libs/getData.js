@@ -38,14 +38,14 @@ const courseOptions = {
   form: semesterInfo,
 };
 
-const leaveOptions = {
-  url: LEAVE_URL,
+const scoreOptions = {
+  url: SCORE_URL,
   method: 'POST',
   form: semesterInfo,
 };
 
-const scoreOptions = {
-  url: SCORE_URL,
+const leaveOptions = {
+  url: LEAVE_URL,
   method: 'POST',
   form: semesterInfo,
 };
@@ -94,6 +94,55 @@ const getCourse = () => new Promise((resolve, reject) => {
   });
 });
 
+const getScore = () => new Promise((resolve, reject) => {
+  request(loginOptions, (loginErr, loginRes) => {
+    if (loginErr || loginRes.statusCode !== 200) {
+      reject();
+      return;
+    }
+    request(scoreOptions, (err, res, body) => {
+      if (err || res.statusCode !== 200) {
+        reject();
+        return;
+      }
+      const $ = cheerio.load(body);
+      const result = [];
+      // 操行成績 班排
+      let rank = '';
+      $('body > form > table > caption > div').each((index, title) => {
+        rank = $(title).text();
+      });
+
+      $('body > form > table > tbody > tr > td').each((index, title) => {
+        // 跳過標題名稱
+        if (index > 8) {
+          // 科目欄位
+          if (index % 9 === 1) {
+            result.push($(title).text());
+          }
+          // 學分數
+          if (index % 9 === 2) {
+            result.push($(title).text());
+          }
+          // 期中分數
+          if (index % 9 === 6 && $(title).text().trim().length === 0) {
+            result.push('無');
+          } else if (index % 9 === 6) {
+            result.push($(title).text());
+          }
+          // 期末分數
+          if (index % 9 === 7 && $(title).text().trim().length === 0) {
+            result.push('無');
+          } else if (index % 9 === 7) {
+            result.push($(title).text());
+          }
+        }
+      });
+      resolve([result, rank]);
+    });
+  });
+});
+
 const getLeave = () => new Promise((resolve, reject) => {
   request(loginOptions, (loginErr, loginRes) => {
     if (loginErr || loginRes.statusCode !== 200) {
@@ -115,33 +164,7 @@ const getLeave = () => new Promise((resolve, reject) => {
   });
 });
 
-const getScore = () => new Promise((resolve, reject) => {
-  request(loginOptions, (loginErr, loginRes) => {
-    if (loginErr || loginRes.statusCode !== 200) {
-      reject();
-      return;
-    }
-    request(scoreOptions, (err, res, body) => {
-      if (err || res.statusCode !== 200) {
-        reject();
-        return;
-      }
-      const $ = cheerio.load(body);
-      let result = '';
-      $('body > form > table > tbody > tr > td').each((index, title) => {
-        if (index > 8) {
-          if (index % 9 === 1) {
-            console.log($(title).text());
-          }
-        }
-      });
-      resolve(result);
-    });
-  });
-});
-
-
 module.exports.getCourse = getCourse;
-module.exports.getLeave = getLeave;
 module.exports.getScore = getScore;
+module.exports.getLeave = getLeave;
 module.exports.userLogin = userLogin;
