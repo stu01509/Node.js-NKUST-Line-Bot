@@ -891,7 +891,7 @@ const setCourseMessage = courseData => new Promise((resolve, reject) => {
             },
           ],
         },
-      },{
+      }, {
         type: 'bubble',
         styles: {
           footer: {
@@ -1178,7 +1178,7 @@ const setCourseMessage = courseData => new Promise((resolve, reject) => {
             },
           ],
         },
-      },{
+      }, {
         type: 'bubble',
         styles: {
           footer: {
@@ -1471,8 +1471,171 @@ const setCourseMessage = courseData => new Promise((resolve, reject) => {
   resolve(courseMessage);
 });
 
+let scoreMessage = '';
+const setScoreMessage = (scoreData, rankData) => new Promise((resolve, reject) => {
+  const scoreContent = [{
+    type: 'box',
+    layout: 'horizontal',
+    contents: [{
+      type: 'box',
+      layout: 'horizontal',
+      contents: [{
+        type: 'text',
+        text: '科目',
+        size: 'sm',
+        color: '#555555',
+        flex: 0,
+      }],
+    },
+    {
+      type: 'text',
+      text: '學分數',
+      size: 'sm',
+      color: '#111111',
+      align: 'center',
+    },
+    {
+      type: 'text',
+      text: '期中',
+      size: 'sm',
+      color: '#111111',
+      align: 'center',
+    },
+    {
+      type: 'text',
+      text: '學期',
+      size: 'sm',
+      color: '#111111',
+      align: 'center',
+    },
+    ],
+  },
+  ];
+
+  for (let i = 0; i < scoreData.length; i += 4) {
+    const index = i;
+    scoreContent.push({
+      type: 'box',
+      layout: 'horizontal',
+      contents: [{
+        type: 'box',
+        layout: 'horizontal',
+        contents: [{
+          type: 'text',
+          // 科目欄位
+          text: scoreData[index],
+          size: 'sm',
+          color: '#555555',
+          flex: 0,
+        }],
+      },
+      {
+        type: 'text',
+        // 學分數欄位
+        text: scoreData[index + 1],
+        size: 'sm',
+        color: '#111111',
+        align: 'center',
+      },
+      {
+        type: 'text',
+        // 期中分數
+        text: scoreData[index + 2],
+        size: 'sm',
+        color: '#111111',
+        align: 'center',
+      },
+      {
+        type: 'text',
+        // 學期分數
+        text: scoreData[index + 3],
+        size: 'sm',
+        color: '#111111',
+        align: 'center',
+      },
+      ],
+    });
+  }
+
+  scoreMessage = {
+    type: 'flex',
+    altText: '個人成績',
+    contents: {
+      type: 'carousel',
+      contents: [{
+        type: 'bubble',
+        styles: {
+          footer: {
+            separator: true,
+          },
+        },
+        body: {
+          type: 'box',
+          layout: 'vertical',
+          contents: [
+            {
+              type: 'text',
+              text: '個人成績單',
+              weight: 'bold',
+              size: 'xxl',
+              margin: 'md',
+              color: '#457E9B',
+            },
+            {
+              type: 'separator',
+              margin: 'xxl',
+            },
+            {
+              type: 'box',
+              layout: 'vertical',
+              margin: 'xxl',
+              spacing: 'sm',
+              contents: scoreContent,
+            },
+            {
+              type: 'separator',
+              margin: 'xxl',
+            },
+            {
+              type: 'box',
+              layout: 'horizontal',
+              margin: 'md',
+              contents: [
+                {
+                  type: 'text',
+                  text: rankData[0],
+                  size: 'xs',
+                  color: '#aaaaaa',
+                  flex: 0,
+                },
+              ],
+            },
+            {
+              type: 'box',
+              layout: 'horizontal',
+              margin: 'md',
+              contents: [
+                {
+                  type: 'text',
+                  text: rankData[1],
+                  size: 'xs',
+                  color: '#aaaaaa',
+                  flex: 0,
+                },
+              ],
+            },
+          ],
+        },
+      }],
+    },
+  };
+  resolve(scoreMessage);
+});
+
 
 module.exports.loginMessage = loginMessage;
 module.exports.loginNotifyMessage = loginNotifyMessage;
 module.exports.courseMessage = courseMessage;
 module.exports.setCourseMessage = setCourseMessage;
+module.exports.scoreMessage = scoreMessage;
+module.exports.setScoreMessage = setScoreMessage;
