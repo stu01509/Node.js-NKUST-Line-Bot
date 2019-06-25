@@ -8,7 +8,7 @@ const loginMessage = {
     actions: [{
       type: 'postback',
       label: '登入',
-      courseData: 'login',
+      data: 'login',
     },
     ],
   },
