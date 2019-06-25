@@ -2,7 +2,7 @@ const linebot = require('linebot');
 
 const getData = require('./libs/getData');
 const userData = require('./libs/userData');
-
+const messageTemplate = require('./libs/messageTemplate');
 // Loading Config
 require('dotenv').config();
 
@@ -35,43 +35,52 @@ bot.on('message', (event) => {
   const userText = event.message.text;
   const account = userText.split('\n')[0];
   const passwd = userText.split('\n')[1];
-  userData.userCrete(event.source.userId, account, passwd)
-    .then((msg) => {
-      bot.push(event.source.userId, msg)
-        .then((data) => {
-          console.log('Then Success', data);
-        })
-        .catch((error) => {
-          console.log('Then Error', error);
-        });
-    });
+
+  if (userData.createMode === true) {
+    userData.userCreate(event.source.userId, account, passwd)
+      .then((msg) => {
+        bot.push(event.source.userId, msg)
+          .then((data) => {
+            console.log('Then Success', data);
+          })
+          .catch((error) => {
+            console.log('Then Error', error);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+        bot.push(event.source.userId, '登入失敗')
+          .then((data) => {
+            console.log('Then Success', data);
+          })
+          .catch((error) => {
+            console.log('Then Error', error);
+          });
+      });
+    userData.createMode = false;
+  }
 
   switch (userText) {
     case funcList[0]:
       getData.userLogin(event.source.userId)
-        .then((msg) => {
-          if (msg === '請先登入取得資料') {
-            bot.push(event.source.userId, msg)
+        .then((loingResult) => {
+          if (loingResult === '請先登入取得資料') {
+            bot.push(event.source.userId, messageTemplate.loginMessage)
               .then((data) => {
                 console.log('Then Success', data);
-              })
-              .catch((error) => {
-                console.log('Then Error', error);
               });
           } else {
             getData.getCourse()
-              .then((msg) => {
-                bot.push(event.source.userId, msg)
-                  .then((data) => {
-                    console.log('Then Success', data);
-                  })
-                  .catch((error) => {
-                    console.log('Then Error', error);
+              .then((courseReult) => {
+                messageTemplate.setCourseMessage(courseReult)
+                  .then((courseMessage) => {
+                    bot.push(event.source.userId, courseMessage)
+                      .then((data) => {
+                        console.log('Then Success', data);
+                      });
                   });
               });
           }
-        }).catch((err) => {
-
         });
       break;
     case funcList[1]:
@@ -79,12 +88,48 @@ bot.on('message', (event) => {
     case funcList[2]:
       break;
     case funcList[3]:
+      getData.userLogin(event.source.userId)
+        .then((loginResult) => {
+          if (loginResult === '請先登入取得資料') {
+            bot.push(event.source.userId, messageTemplate.loginMessage)
+              .then((data) => {
+                console.log('Then Success', data);
+              });
+          } else {
+            getData.getScore()
+              .then((scoreResult, rankResult) => {
+                messageTemplate.setScoreMessage(scoreResult, rankResult)
+                  .then((scoreMessage) => {
+                    console.log(scoreMessage);                   
+                    bot.push(event.source.userId, scoreMessage)
+                      .then((data) => {
+                        console.log('Then Success', data);
+                      });
+                  });
+              });
+          }
+        });
       break;
     case funcList[4]:
       break;
     case funcList[5]:
       break;
-    case '登入': {
+    case '刪除': {
+      userData.userRemove(event.source.userId);
+      break;
+    }
+    default:
+  }
+});
+
+bot.on('postback', (event) => {
+  const postback = event.postback.data;
+  console.log(postback);
+
+  switch (postback) {
+    case 'login': {
+      userData.createMode = true;
+      event.reply(messageTemplate.loginNotifyMessage);
       break;
     }
 
