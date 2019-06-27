@@ -9,11 +9,6 @@ const SCORE_URL = `${BASE_URL}ag_pro/ag008.jsp`;
 
 const UserSchema = require('../schema/user/User');
 
-// enable cookie to pass next request
-request = request.defaults({
-  jar: true,
-});
-
 const loginInfo = {
   'uid': '',
   'pwd': '',
@@ -68,6 +63,9 @@ const userLogin = userId => new Promise((resolve, reject) => {
 });
 
 const getCourse = () => new Promise((resolve, reject) => {
+  const courseCookie = request.jar();
+  request = request.defaults({ jar: courseCookie });
+
   request(loginOptions, (loginErr, loginRes) => {
     if (loginErr || loginRes.statusCode !== 200) {
       reject();
@@ -96,6 +94,9 @@ const getCourse = () => new Promise((resolve, reject) => {
 });
 
 const getScore = () => new Promise((resolve, reject) => {
+  const scoreCookie = request.jar();
+  request = request.defaults({ jar: scoreCookie });
+
   request(loginOptions, (loginErr, loginRes) => {
     if (loginErr || loginRes.statusCode !== 200) {
       reject();
@@ -148,6 +149,9 @@ const getScore = () => new Promise((resolve, reject) => {
 });
 
 const getLeave = () => new Promise((resolve, reject) => {
+  const leaveCookie = request.jar();
+  request = request.defaults({ jar: leaveCookie });
+  
   request(loginOptions, (loginErr, loginRes) => {
     if (loginErr || loginRes.statusCode !== 200) {
       reject();
