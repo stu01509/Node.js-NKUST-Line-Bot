@@ -154,7 +154,7 @@ const getScore = () => new Promise((resolve, reject) => {
 const getLeave = () => new Promise((resolve, reject) => {
   const leaveCookie = request.jar();
   request = request.defaults({ jar: leaveCookie });
-  
+
   request(loginOptions, (loginErr, loginRes) => {
     if (loginErr || loginRes.statusCode !== 200) {
       reject();
