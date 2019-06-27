@@ -198,10 +198,6 @@ const setCourseMessage = courseData => new Promise((resolve, reject) => {
                   flex: 0,
                 },
                 {
-                  type: 'separator',
-                  margin: 'xxl',
-                },
-                {
                   type: 'text',
                   text: courseData[65],
                   size: 'sm',
@@ -1632,6 +1628,349 @@ const setScoreMessage = (scoreData, rankData) => new Promise((resolve, reject) =
   resolve(scoreMessage);
 });
 
+let leaveMessage = '';
+const setLeaveMessage = leaveData => new Promise((resolve, reject) => {
+  const leaveContent = [];
+
+  for (let i = 0; i < leaveData.length; i += 19) {
+    const index = i;
+    leaveContent.push({
+      type: 'box',
+      layout: 'vertical',
+      margin: 'md',
+      spacing: 'sm',
+      contents: [
+        {
+          type: 'box',
+          layout: 'horizontal',
+          margin: 'md',
+          contents: [
+            {
+              type: 'box',
+              layout: 'baseline',
+              contents: [
+                {
+                  type: 'text',
+                  text: '日期:',
+                  size: 'sm',
+                  color: '#555555',
+                },
+              ],
+              flex: 3,
+            },
+            {
+              type: 'text',
+              text: '1',
+              size: 'sm',
+              color: '#aaaaaa',
+              align: 'end',
+            },
+            {
+              type: 'text',
+              text: '2',
+              size: 'sm',
+              color: '#aaaaaa',
+              align: 'end',
+            },
+            {
+              type: 'text',
+              text: '3',
+              size: 'sm',
+              color: '#aaaaaa',
+              align: 'end',
+            },
+            {
+              type: 'text',
+              text: '4',
+              size: 'sm',
+              color: '#aaaaaa',
+              align: 'end',
+            },
+            {
+              type: 'text',
+              text: 'A',
+              size: 'sm',
+              color: '#aaaaaa',
+              align: 'end',
+            },
+            {
+              type: 'text',
+              text: '5',
+              size: 'sm',
+              color: '#aaaaaa',
+              align: 'end',
+            },
+            {
+              type: 'text',
+              text: '6',
+              size: 'sm',
+              color: '#aaaaaa',
+              align: 'end',
+            },
+          ],
+        },
+        {
+          type: 'box',
+          layout: 'horizontal',
+          margin: 'md',
+          contents: [
+            {
+              type: 'box',
+              layout: 'baseline',
+              contents: [
+                {
+                  type: 'text',
+                  text: leaveData[index + 2],
+                  size: 'sm',
+                  color: '#555555',
+                },
+              ],
+              flex: 3,
+            },
+            {
+              type: 'text',
+              text: leaveData[index + 5].substr(0, 1),
+              size: 'sm',
+              color: '#ff0000',
+              align: 'end',
+            },
+            {
+              type: 'text',
+              text: leaveData[index + 6].substr(0, 1),
+              size: 'sm',
+              color: '#ff0000',
+              align: 'end',
+            },
+            {
+              type: 'text',
+              text: leaveData[index + 7].substr(0, 1),
+              size: 'sm',
+              color: '#ff0000',
+              align: 'end',
+            },
+            {
+              type: 'text',
+              text: leaveData[index + 8].substr(0, 1),
+              size: 'sm',
+              color: '#ff0000',
+              align: 'end',
+            },
+            {
+              type: 'text',
+              text: leaveData[index + 9].substr(0, 1),
+              size: 'sm',
+              color: '#ff0000',
+              align: 'end',
+            },
+            {
+              type: 'text',
+              text: leaveData[index + 10].substr(0, 1),
+              size: 'sm',
+              color: '#ff0000',
+              align: 'end',
+            },
+            {
+              type: 'text',
+              text: leaveData[index + 11].substr(0, 1),
+              size: 'sm',
+              color: '#ff0000',
+              align: 'end',
+            },
+          ],
+        },
+        {
+          type: 'box',
+          layout: 'horizontal',
+          margin: 'md',
+          contents: [
+            {
+              type: 'box',
+              layout: 'baseline',
+              contents: [
+                {
+                  type: 'text',
+                  text: '假單編號:',
+                  size: 'sm',
+                  color: '#555555',
+                },
+              ],
+              flex: 3,
+            },
+            {
+              type: 'text',
+              text: '7',
+              size: 'sm',
+              color: '#aaaaaa',
+              align: 'end',
+            },
+            {
+              type: 'text',
+              text: '8',
+              size: 'sm',
+              color: '#aaaaaa',
+              align: 'end',
+            },
+            {
+              type: 'text',
+              text: '9',
+              size: 'sm',
+              color: '#aaaaaa',
+              align: 'end',
+            },
+            {
+              type: 'text',
+              text: '10',
+              size: 'sm',
+              color: '#aaaaaa',
+              align: 'end',
+            },
+            {
+              type: 'text',
+              text: '11',
+              size: 'sm',
+              color: '#aaaaaa',
+              align: 'end',
+            },
+            {
+              type: 'text',
+              text: '12',
+              size: 'sm',
+              color: '#aaaaaa',
+              align: 'end',
+            },
+            {
+              type: 'text',
+              text: '13',
+              size: 'sm',
+              color: '#aaaaaa',
+              align: 'end',
+            },
+          ],
+        },
+        {
+          type: 'box',
+          layout: 'horizontal',
+          margin: 'md',
+          contents: [
+            {
+              type: 'box',
+              layout: 'baseline',
+              contents: [
+                {
+                  type: 'text',
+                  text: leaveData[index + 1],
+                  size: 'sm',
+                  color: '#555555',
+                },
+              ],
+              flex: 3,
+            },
+            {
+              type: 'text',
+              text: leaveData[index + 12].substr(0, 1),
+              size: 'sm',
+              color: '#ff0000',
+              align: 'end',
+            },
+            {
+              type: 'text',
+              text: leaveData[index + 13].substr(0, 1),
+              size: 'sm',
+              color: '#ff0000',
+              align: 'end',
+            },
+            {
+              type: 'text',
+              text: leaveData[index + 14].substr(0, 1),
+              size: 'sm',
+              color: '#ff0000',
+              align: 'end',
+            },
+            {
+              type: 'text',
+              text: leaveData[index + 15].substr(0, 1),
+              size: 'sm',
+              color: '#ff0000',
+              align: 'end',
+            },
+            {
+              type: 'text',
+              text: leaveData[index + 16].substr(0, 1),
+              size: 'sm',
+              color: '#ff0000',
+              align: 'end',
+            },
+            {
+              type: 'text',
+              text: leaveData[index + 17].substr(0, 1),
+              size: 'sm',
+              color: '#ff0000',
+              align: 'end',
+            },
+            {
+              type: 'text',
+              text: leaveData[index + 18].substr(0, 1),
+              size: 'sm',
+              color: '#ff0000',
+              align: 'end',
+            },
+          ],
+        },
+        {
+          type: 'separator',
+          margin: 'xxl',
+        },
+      ],
+    });
+  }
+
+  leaveMessage = {
+    type: 'flex',
+    altText: '個人請假缺曠紀錄',
+    contents: {
+      type: 'carousel',
+      contents: [{
+        type: 'bubble',
+        styles: {
+          footer: {
+            separator: true,
+          },
+        },
+        body: {
+          type: 'box',
+          layout: 'vertical',
+          contents: [
+            {
+              type: 'text',
+              text: '個人出席紀錄',
+              weight: 'bold',
+              size: 'xxl',
+              margin: 'md',
+              color: '#457E9B',
+            },
+            {
+              type: 'separator',
+              margin: 'xxl',
+            },
+            {
+              type: 'box',
+              layout: 'vertical',
+              margin: 'xxl',
+              spacing: 'sm',
+              contents: leaveContent,
+            },
+            {
+              type: 'separator',
+              margin: 'xxl',
+            },
+          ],
+        },
+      }],
+    },
+  };
+  resolve(leaveMessage);
+});
+
 
 module.exports.loginMessage = loginMessage;
 module.exports.loginNotifyMessage = loginNotifyMessage;
@@ -1639,3 +1978,5 @@ module.exports.courseMessage = courseMessage;
 module.exports.setCourseMessage = setCourseMessage;
 module.exports.scoreMessage = scoreMessage;
 module.exports.setScoreMessage = setScoreMessage;
+module.exports.leaveMessage = leaveMessage;
+module.exports.setLeaveMessage = setLeaveMessage;
