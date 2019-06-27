@@ -19,6 +19,114 @@ const loginNotifyMessage = [
   { type: 'text', text: 'C107123456\n123456' },
 ];
 
+const courseSelectMessage = {
+  type: 'text',
+  text: '請選擇您要查詢的學期',
+  quickReply: {
+    items: [
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '108-上',
+          text: '108-上',
+          data: 'course&108&1',
+        },
+      },
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '107-下',
+          text: '107-下',
+          data: 'course&107&2',
+        },
+      },
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '107-上',
+          text: '107-上',
+          data: 'course&107&1',
+        },
+      },
+    ],
+  },
+};
+
+const scoreSelectMessage = {
+  type: 'text',
+  text: '請選擇您要查詢的學期',
+  quickReply: {
+    items: [
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '108-上',
+          text: '108-上',
+          data: 'score&108&1',
+        },
+      },
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '107-下',
+          text: '107-下',
+          data: 'score&107&2',
+        },
+      },
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '107-上',
+          text: '107-上',
+          data: 'score&107&1',
+        },
+      },
+    ],
+  },
+};
+
+const leaveSelectMessage = {
+  type: 'text',
+  text: '請選擇您要查詢的學期',
+  quickReply: {
+    items: [
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '108-上',
+          text: '108-上',
+          data: 'leave&108&1',
+        },
+      },
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '107-下',
+          text: '107-下',
+          data: 'leave&107&2',
+        },
+      },
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '107-上',
+          text: '107-上',
+          data: 'leave&107&1',
+        },
+      },
+    ],
+  },
+};
+
 let courseMessage = '';
 const setCourseMessage = courseData => new Promise((resolve, reject) => {
   courseMessage = {
@@ -1976,7 +2084,10 @@ module.exports.loginMessage = loginMessage;
 module.exports.loginNotifyMessage = loginNotifyMessage;
 module.exports.courseMessage = courseMessage;
 module.exports.setCourseMessage = setCourseMessage;
+module.exports.courseSelectMessage = courseSelectMessage;
 module.exports.scoreMessage = scoreMessage;
 module.exports.setScoreMessage = setScoreMessage;
+module.exports.scoreSelectMessage = scoreSelectMessage;
 module.exports.leaveMessage = leaveMessage;
 module.exports.setLeaveMessage = setLeaveMessage;
+module.exports.leaveSelectMessage = leaveSelectMessage;
