@@ -159,10 +159,19 @@ const getLeave = () => new Promise((resolve, reject) => {
         return;
       }
       const $ = cheerio.load(body);
-      let result = '';
+      const result = [];
       $('body > table.LoginTable td').each((index, title) => {
-        console.log($(title).text());
+        // 跳過標題名稱
+        if (index > 18 && $(title).text().trim().length === 0) {
+          result.push(' ');
+        } else if (index > 18) {
+          result.push($(title).text());
+        }
       });
+      // 如果沒有 缺曠請假資料 自動補上結果
+      if (result.length === 0) {
+        result.push('查無缺曠請假資料！');
+      }
       resolve(result);
     });
   });
