@@ -48,6 +48,23 @@ const leaveOptions = {
   form: semesterInfo,
 };
 
+const userCheck = (uid, pwd) => new Promise((resolve, reject) => {
+  loginInfo.uid = uid;
+  loginInfo.pwd = pwd;
+
+  request(loginOptions, (loginErr, loginRes, loginBody) => {
+    if (loginErr || loginRes.statusCode !== 200) {
+      reject();
+      return;
+    }
+    if (loginBody.match('無此帳號或密碼不正確')) {
+      reject();
+    } else {
+      resolve();
+    }
+  });
+});
+
 const userLogin = userId => new Promise((resolve, reject) => {
   UserSchema.findOne({
     userId,
@@ -189,3 +206,4 @@ module.exports.getCourse = getCourse;
 module.exports.getScore = getScore;
 module.exports.getLeave = getLeave;
 module.exports.userLogin = userLogin;
+module.exports.userCheck = userCheck;
