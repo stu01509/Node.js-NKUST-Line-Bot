@@ -10,15 +10,18 @@ const SCORE_URL = `${BASE_URL}ag_pro/ag008.jsp`;
 const UserSchema = require('../schema/user/User');
 
 const loginInfo = {
-  'uid': '',
-  'pwd': '',
+  uid: '',
+  pwd: '',
 };
 
 const semesterInfo = {
-  // yms not necessary
-  'yms': '107,2',
-  'arg01': '107',
-  'arg02': '2',
+  arg01: '',
+  arg02: '',
+};
+
+const setSemesterInfo = (arg01, arg02) => {
+  semesterInfo.arg01 = arg01;
+  semesterInfo.arg02 = arg02;
 };
 
 const loginOptions = {
@@ -181,6 +184,7 @@ const getLeave = () => new Promise((resolve, reject) => {
   });
 });
 
+module.exports.setSemesterInfo = setSemesterInfo;
 module.exports.getCourse = getCourse;
 module.exports.getScore = getScore;
 module.exports.getLeave = getLeave;
