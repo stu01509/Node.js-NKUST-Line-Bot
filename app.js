@@ -9,8 +9,6 @@ require('dotenv').config();
 // Import MongoDB Connect Modules
 const conn = require('./libs/mongodb');
 
-const funcList = ['個人課表', '下節課在哪', '曠課/請假紀錄', '成績查詢', '天氣狀態', '公車查詢'];
-
 // Confing Line Bot
 const bot = linebot({
   channelId: process.env.channelId,
@@ -33,87 +31,68 @@ bot.on('follow', (event) => {
 
 bot.on('message', (event) => {
   const userText = event.message.text;
-  const account = userText.split('\n')[0];
-  const passwd = userText.split('\n')[1];
+
+  let account = '';
+  let passwd = '';
+  if (userText !== undefined) {
+    account = userText.split('\n')[0];
+    passwd = userText.split('\n')[1];
+  }
 
   if (userData.createMode === true) {
-    userData.userCreate(event.source.userId, account, passwd)
-      .then((msg) => {
-        bot.push(event.source.userId, msg)
-          .then((data) => {
-            console.log('Then Success', data);
+    getData.userCheck(account, passwd)
+      .then((checkResult) => {
+        userData.userCreate(event.source.userId, account, passwd)
+          .then((msg) => {
+            bot.push(event.source.userId, msg);
           })
-          .catch((error) => {
-            console.log('Then Error', error);
+          .catch((err) => {
+            bot.push(event.source.userId, '登入失敗');
           });
       })
       .catch((err) => {
-        console.log(err);
-        bot.push(event.source.userId, '登入失敗')
-          .then((data) => {
-            console.log('Then Success', data);
-          })
-          .catch((error) => {
-            console.log('Then Error', error);
-          });
+        bot.push(event.source.userId, '登入失敗或帳號密碼錯誤');
       });
     userData.createMode = false;
   }
 
   switch (userText) {
-    case funcList[0]:
+    case '個人課表': {
       getData.userLogin(event.source.userId)
         .then((loingResult) => {
           if (loingResult === '請先登入取得資料') {
-            bot.push(event.source.userId, messageTemplate.loginMessage)
-              .then((data) => {
-                console.log('Then Success', data);
-              });
+            bot.push(event.source.userId, messageTemplate.loginMessage);
           } else {
-            getData.getCourse()
-              .then((courseReult) => {
-                messageTemplate.setCourseMessage(courseReult)
-                  .then((courseMessage) => {
-                    bot.push(event.source.userId, courseMessage)
-                      .then((data) => {
-                        console.log('Then Success', data);
-                      });
-                  });
-              });
+            event.reply(messageTemplate.courseSelectMessage);
           }
         });
       break;
-    case funcList[1]:
-      break;
-    case funcList[2]:
-      break;
-    case funcList[3]:
+    }
+
+    case '成績查詢': {
       getData.userLogin(event.source.userId)
         .then((loginResult) => {
           if (loginResult === '請先登入取得資料') {
-            bot.push(event.source.userId, messageTemplate.loginMessage)
-              .then((data) => {
-                console.log('Then Success', data);
-              });
+            bot.push(event.source.userId, messageTemplate.loginMessage);
           } else {
-            getData.getScore()
-              .then((scoreResult) => {
-                messageTemplate.setScoreMessage(scoreResult[0], scoreResult[1])
-                  .then((scoreMessage) => {
-                    console.log(scoreMessage);
-                    bot.push(event.source.userId, scoreMessage)
-                      .then((data) => {
-                        console.log('Then Success', data);
-                      });
-                  });
-              });
+            event.reply(messageTemplate.scoreSelectMessage);
           }
         });
       break;
-    case funcList[4]:
+    }
+
+    case '曠課/請假紀錄': {
+      getData.userLogin(event.source.userId)
+        .then((loginResult) => {
+          if (loginResult === '請先登入取得資料') {
+            bot.push(event.source.userId, messageTemplate.loginMessage);
+          } else {
+            event.reply(messageTemplate.leaveSelectMessage);
+          }
+        });
       break;
-    case funcList[5]:
-      break;
+    }
+
     case '刪除': {
       userData.userRemove(event.source.userId);
       break;
@@ -123,20 +102,73 @@ bot.on('message', (event) => {
 });
 
 bot.on('postback', (event) => {
-  const postback = event.postback.data;
-  console.log(postback);
+  // postback[0] 功能選擇
+  // postback[1] 學年
+  // postback[2] 學期
+  const postback = event.postback.data.split('&');
 
-  switch (postback) {
+  switch (postback[0]) {
     case 'login': {
       userData.createMode = true;
       event.reply(messageTemplate.loginNotifyMessage);
       break;
     }
 
-    default:
+    case 'course': {
+      getData.setSemesterInfo(postback[1], postback[2]);
+      getData.getCourse()
+        .then((courseReult) => {
+          messageTemplate.setCourseMessage(courseReult)
+            .then((courseMessage) => {
+              bot.push(event.source.userId, courseMessage)
+                .then((data) => {
+                  console.log('Then Success', data);
+                });
+            });
+        });
+      break;
+    }
+
+    case 'score': {
+      getData.setSemesterInfo(postback[1], postback[2]);
+      getData.getScore()
+        .then((scoreResult) => {
+          messageTemplate.setScoreMessage(scoreResult[0], scoreResult[1])
+            .then((scoreMessage) => {
+              bot.push(event.source.userId, scoreMessage)
+                .then((data) => {
+                  console.log('Then Success', data);
+                });
+            });
+        });
+      break;
+    }
+
+    case 'leave': {
+      getData.setSemesterInfo(postback[1], postback[2]);
+      getData.getLeave()
+        .then((leaveResult) => {
+          if (leaveResult.length === 1) {
+            // 查無缺課
+          } else {
+            messageTemplate.setLeaveMessage(leaveResult)
+              .then((leaveMessage) => {
+                bot.push(event.source.userId, leaveMessage)
+                  .then((data) => {
+                    console.log('Then Success', data);
+                  });
+              });
+          }
+        });
+      break;
+    }
+
+    default: {
+      break;
+    }
   }
 });
 
-bot.listen('/callback', 3000, () => {
+bot.listen('/callback', process.env.PORT || 3000, () => {
   console.log('LineBot is running.');
 });

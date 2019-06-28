@@ -4,7 +4,7 @@ mongoose.Promise = Promise;
 
 require('dotenv').config();
 
-const { DB_PATH } = process.env;
+const { DB_PATH, DB_SSL } = process.env;
 
 const connect = () => new Promise((resolve, reject) => {
   const db = mongoose.connection;
@@ -25,6 +25,7 @@ const connect = () => new Promise((resolve, reject) => {
 
   mongoose.connect(DB_PATH, {
     useNewUrlParser: true,
+    ssl: DB_SSL,
   });
 });
 
