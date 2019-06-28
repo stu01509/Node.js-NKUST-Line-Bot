@@ -25,7 +25,7 @@ const connect = () => new Promise((resolve, reject) => {
 
   mongoose.connect(DB_PATH, {
     useNewUrlParser: true,
-    ssl: DB_SSL,
+    ssl: Boolean(DB_SSL),
   });
 });
 
