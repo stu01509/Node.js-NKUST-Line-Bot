@@ -42,8 +42,8 @@ bot.on('message', (event) => {
   let account = '';
   let passwd = '';
   if (userText !== undefined) {
-    account = userText.split('\n')[0];
-    passwd = userText.split('\n')[1];
+    [account, passwd] = [userText.split('\n')[0],
+      userText.split('\n')[1]];
   }
 
   if (userData.createMode === true) {
