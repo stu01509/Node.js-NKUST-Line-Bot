@@ -47,6 +47,7 @@ bot.on('message', (event) => {
   }
 
   if (userData.createMode === true) {
+    event.reply(`您輸入的學號為: ${account}\n密碼為: ${passwd}`);
     getData.userCheck(account, passwd)
       .then((checkResult) => {
         userData.userCreate(event.source.userId, account, passwd)
@@ -95,6 +96,18 @@ bot.on('message', (event) => {
             bot.push(event.source.userId, messageTemplate.loginMessage);
           } else {
             event.reply(messageTemplate.leaveSelectMessage);
+          }
+        });
+      break;
+    }
+
+    case '期中預警': {
+      getData.userLogin(event.source.userId)
+        .then((loginResult) => {
+          if (loginResult === '請先登入取得資料') {
+            bot.push(event.source.userId, messageTemplate.loginMessage);
+          } else {
+            event.reply(messageTemplate.midWarningSelectMessage);
           }
         });
       break;
@@ -156,7 +169,7 @@ bot.on('postback', (event) => {
       getData.getLeave()
         .then((leaveResult) => {
           if (leaveResult.length === 1) {
-            // 查無缺課
+            event.reply('您沒有任何缺曠課紀錄');
           } else {
             messageTemplate.setLeaveMessage(leaveResult)
               .then((leaveMessage) => {
@@ -166,6 +179,21 @@ bot.on('postback', (event) => {
                   });
               });
           }
+        });
+      break;
+    }
+
+    case 'midWarning': {
+      getData.setSemesterInfo(postback[1], postback[2]);
+      getData.getMidWarning()
+        .then((midWarningResult) => {
+          messageTemplate.setMidWarningMessage(midWarningResult)
+            .then((midWarningMessage) => {
+              bot.push(event.source.userId, midWarningMessage)
+                .then((data) => {
+                  console.log('Then Success', data);
+                });
+            });
         });
       break;
     }
