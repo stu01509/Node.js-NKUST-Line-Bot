@@ -6,6 +6,7 @@ const LOGIN_URL = `${BASE_URL}perchk.jsp`;
 const COURSE_URL = `${BASE_URL}ag_pro/ag222.jsp`;
 const LEAVE_URL = `${BASE_URL}ak_pro/ak002_01.jsp`;
 const SCORE_URL = `${BASE_URL}ag_pro/ag008.jsp`;
+const MIDWARNING_URL = `${BASE_URL}ag_pro/ag009.jsp`;
 
 const UserSchema = require('../schema/user/User');
 
@@ -44,6 +45,12 @@ const scoreOptions = {
 
 const leaveOptions = {
   url: LEAVE_URL,
+  method: 'POST',
+  form: semesterInfo,
+};
+
+const midWarningOptions = {
+  url: MIDWARNING_URL,
   method: 'POST',
   form: semesterInfo,
 };
@@ -201,9 +208,39 @@ const getLeave = () => new Promise((resolve, reject) => {
   });
 });
 
+const getMidWarning = () => new Promise((resolve, reject) => {
+  const midWarningCookie = request.jar();
+  request = request.defaults({ jar: midWarningCookie });
+
+  request(loginOptions, (loginErr, loginRes) => {
+    if (loginErr || loginRes.statusCode !== 200) {
+      reject();
+      return;
+    }
+    request(midWarningOptions, (err, res, body) => {
+      if (err || res.statusCode !== 200) {
+        reject();
+        return;
+      }
+      const $ = cheerio.load(body);
+      const result = [];
+      $('body > form > table:nth-child(1) > tbody > tr > td').each((index, title) => {
+        // 跳過標題名稱
+        if (index > 7 && $(title).text().trim().length === 0) {
+          result.push('無');
+        } else if (index > 7) {
+          result.push($(title).text());
+        }
+      });
+      resolve(result);
+    });
+  });
+});
+
 module.exports.setSemesterInfo = setSemesterInfo;
 module.exports.getCourse = getCourse;
 module.exports.getScore = getScore;
 module.exports.getLeave = getLeave;
+module.exports.getMidWarning = getMidWarning;
 module.exports.userLogin = userLogin;
 module.exports.userCheck = userCheck;
