@@ -2,6 +2,7 @@ const linebot = require('linebot');
 
 const getData = require('./libs/getData');
 const userData = require('./libs/userData');
+const profileData = require('./libs/profileData');
 const messageTemplate = require('./libs/messageTemplate');
 // Loading Config
 require('dotenv').config();
@@ -25,6 +26,12 @@ const bot = linebot({
 bot.on('follow', (event) => {
   event.source.profile()
     .then((profile) => {
+      profileData.profileCreate(
+        event.source.userId,
+        profile.displayName,
+        profile.statusMessage,
+        profile.pictureUrl,
+      );
       event.reply(`Hello～ ${profile.displayName}\r\n歡迎加入使用 NKUST Bot. 😀`);
     });
 });
