@@ -127,6 +127,42 @@ const leaveSelectMessage = {
   },
 };
 
+const midWarningSelectMessage = {
+  type: 'text',
+  text: '請選擇您要查詢的學期',
+  quickReply: {
+    items: [
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '108-上',
+          text: '108-上',
+          data: 'midWarning&108&1',
+        },
+      },
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '107-下',
+          text: '107-下',
+          data: 'midWarning&107&2',
+        },
+      },
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '107-上',
+          text: '107-上',
+          data: 'midWarning&107&1',
+        },
+      },
+    ],
+  },
+};
+
 let courseMessage = '';
 const setCourseMessage = courseData => new Promise((resolve, reject) => {
   courseMessage = {
@@ -2079,6 +2115,123 @@ const setLeaveMessage = leaveData => new Promise((resolve, reject) => {
   resolve(leaveMessage);
 });
 
+let midWarningMessage = '';
+const setMidWarningMessage = midWarningData => new Promise((resolve, reject) => {
+  const midWarningContent = [{
+    type: 'box',
+    layout: 'horizontal',
+    contents: [{
+      type: 'box',
+      layout: 'horizontal',
+      contents: [{
+        type: 'text',
+        text: '科目',
+        size: 'sm',
+        color: '#555555',
+        flex: 0,
+      }],
+    },
+    {
+      type: 'text',
+      text: '老師',
+      size: 'sm',
+      color: '#111111',
+      align: 'center',
+    },
+    {
+      type: 'text',
+      text: '預警',
+      size: 'sm',
+      color: '#111111',
+      align: 'center',
+    },
+    ],
+  },
+  ];
+
+  for (let i = 0; i < midWarningData.length; i += 8) {
+    const index = i;
+    midWarningContent.push({
+      type: 'box',
+      layout: 'horizontal',
+      contents: [{
+        type: 'box',
+        layout: 'horizontal',
+        contents: [{
+          type: 'text',
+          // 科目欄位
+          text: midWarningData[index + 2],
+          size: 'sm',
+          color: '#555555',
+          flex: 0,
+        }],
+      },
+      {
+        type: 'text',
+        // 老師欄位
+        text: midWarningData[index + 4],
+        size: 'sm',
+        color: '#111111',
+        align: 'center',
+      },
+      {
+        type: 'text',
+        // 預警結果
+        text: midWarningData[index + 5],
+        size: 'sm',
+        color: '#111111',
+        align: 'center',
+      },
+      ],
+    });
+  }
+
+  midWarningMessage = {
+    type: 'flex',
+    altText: '期中預警',
+    contents: {
+      type: 'carousel',
+      contents: [{
+        type: 'bubble',
+        styles: {
+          footer: {
+            separator: true,
+          },
+        },
+        body: {
+          type: 'box',
+          layout: 'vertical',
+          contents: [
+            {
+              type: 'text',
+              text: '期中預警',
+              weight: 'bold',
+              size: 'xxl',
+              margin: 'md',
+              color: '#457E9B',
+            },
+            {
+              type: 'separator',
+              margin: 'xxl',
+            },
+            {
+              type: 'box',
+              layout: 'vertical',
+              margin: 'xxl',
+              spacing: 'sm',
+              contents: midWarningContent,
+            },
+            {
+              type: 'separator',
+              margin: 'xxl',
+            },
+          ],
+        },
+      }],
+    },
+  };
+  resolve(midWarningMessage);
+});
 
 module.exports.loginMessage = loginMessage;
 module.exports.loginNotifyMessage = loginNotifyMessage;
@@ -2091,3 +2244,6 @@ module.exports.scoreSelectMessage = scoreSelectMessage;
 module.exports.leaveMessage = leaveMessage;
 module.exports.setLeaveMessage = setLeaveMessage;
 module.exports.leaveSelectMessage = leaveSelectMessage;
+module.exports.midWarningMessage = midWarningMessage;
+module.exports.setMidWarningMessage = setMidWarningMessage;
+module.exports.midWarningSelectMessage = midWarningSelectMessage;
