@@ -38,7 +38,6 @@ bot.on('follow', (event) => {
 
 bot.on('message', (event) => {
   const userText = event.message.text;
-
   let account = '';
   let passwd = '';
   if (userText !== undefined) {
@@ -47,19 +46,23 @@ bot.on('message', (event) => {
   }
 
   if (userData.createMode === true) {
-    event.reply(`您輸入的學號為: ${account}\n密碼為: ${passwd}`);
     getData.userCheck(account, passwd)
       .then((checkResult) => {
         userData.userCreate(event.source.userId, account, passwd)
-          .then((msg) => {
-            bot.push(event.source.userId, msg);
+          .then((loginMessage) => {
+            event.reply([
+              `您輸入的學號為: ${account}\n密碼為: ${passwd}`,
+              loginMessage]);
           })
           .catch((err) => {
-            bot.push(event.source.userId, '登入失敗');
+            event.reply([
+              `您輸入的學號為: ${account}\n密碼為: ${passwd}`,
+              '登入失敗']);
           });
       })
       .catch((err) => {
-        bot.push(event.source.userId, '登入失敗或帳號密碼錯誤');
+        event.reply([`您輸入的學號為: ${account}\n密碼為: ${passwd}`,
+          '登入失敗或帳號密碼錯誤']);
       });
     userData.createMode = false;
   }
@@ -69,7 +72,7 @@ bot.on('message', (event) => {
       getData.userLogin(event.source.userId)
         .then((loingResult) => {
           if (loingResult === '請先登入取得資料') {
-            bot.push(event.source.userId, messageTemplate.loginMessage);
+            event.reply(messageTemplate.loginMessage);
           } else {
             event.reply(messageTemplate.courseSelectMessage);
           }
@@ -81,7 +84,7 @@ bot.on('message', (event) => {
       getData.userLogin(event.source.userId)
         .then((loginResult) => {
           if (loginResult === '請先登入取得資料') {
-            bot.push(event.source.userId, messageTemplate.loginMessage);
+            event.reply(event.source.userId, messageTemplate.loginMessage);
           } else {
             event.reply(messageTemplate.scoreSelectMessage);
           }
@@ -93,7 +96,7 @@ bot.on('message', (event) => {
       getData.userLogin(event.source.userId)
         .then((loginResult) => {
           if (loginResult === '請先登入取得資料') {
-            bot.push(event.source.userId, messageTemplate.loginMessage);
+            event.reply(event.source.userId, messageTemplate.loginMessage);
           } else {
             event.reply(messageTemplate.leaveSelectMessage);
           }
@@ -105,7 +108,7 @@ bot.on('message', (event) => {
       getData.userLogin(event.source.userId)
         .then((loginResult) => {
           if (loginResult === '請先登入取得資料') {
-            bot.push(event.source.userId, messageTemplate.loginMessage);
+            event.reply(event.source.userId, messageTemplate.loginMessage);
           } else {
             event.reply(messageTemplate.midWarningSelectMessage);
           }
@@ -140,10 +143,7 @@ bot.on('postback', (event) => {
         .then((courseReult) => {
           messageTemplate.setCourseMessage(courseReult)
             .then((courseMessage) => {
-              bot.push(event.source.userId, courseMessage)
-                .then((data) => {
-                  console.log('Then Success', data);
-                });
+              event.reply(courseMessage);
             });
         });
       break;
@@ -155,10 +155,7 @@ bot.on('postback', (event) => {
         .then((scoreResult) => {
           messageTemplate.setScoreMessage(scoreResult[0], scoreResult[1])
             .then((scoreMessage) => {
-              bot.push(event.source.userId, scoreMessage)
-                .then((data) => {
-                  console.log('Then Success', data);
-                });
+              event.reply(scoreMessage);
             });
         });
       break;
@@ -173,10 +170,7 @@ bot.on('postback', (event) => {
           } else {
             messageTemplate.setLeaveMessage(leaveResult)
               .then((leaveMessage) => {
-                bot.push(event.source.userId, leaveMessage)
-                  .then((data) => {
-                    console.log('Then Success', data);
-                  });
+                event.reply(leaveMessage);
               });
           }
         });
@@ -189,10 +183,7 @@ bot.on('postback', (event) => {
         .then((midWarningResult) => {
           messageTemplate.setMidWarningMessage(midWarningResult)
             .then((midWarningMessage) => {
-              bot.push(event.source.userId, midWarningMessage)
-                .then((data) => {
-                  console.log('Then Success', data);
-                });
+              event.reply(midWarningMessage);
             });
         });
       break;
