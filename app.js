@@ -84,7 +84,7 @@ bot.on('message', (event) => {
       getData.userLogin(event.source.userId)
         .then((loginResult) => {
           if (loginResult === '請先登入取得資料') {
-            event.reply(event.source.userId, messageTemplate.loginMessage);
+            event.reply(messageTemplate.loginMessage);
           } else {
             event.reply(messageTemplate.scoreSelectMessage);
           }
@@ -96,7 +96,7 @@ bot.on('message', (event) => {
       getData.userLogin(event.source.userId)
         .then((loginResult) => {
           if (loginResult === '請先登入取得資料') {
-            event.reply(event.source.userId, messageTemplate.loginMessage);
+            event.reply(messageTemplate.loginMessage);
           } else {
             event.reply(messageTemplate.leaveSelectMessage);
           }
@@ -108,7 +108,7 @@ bot.on('message', (event) => {
       getData.userLogin(event.source.userId)
         .then((loginResult) => {
           if (loginResult === '請先登入取得資料') {
-            event.reply(event.source.userId, messageTemplate.loginMessage);
+            event.reply(messageTemplate.loginMessage);
           } else {
             event.reply(messageTemplate.midWarningSelectMessage);
           }
