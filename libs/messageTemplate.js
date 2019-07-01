@@ -15,9 +15,13 @@ const loginMessage = {
 };
 
 const loginNotifyMessage = [
-  { type: 'text', text: '請輸入您的學號與密碼\n格式如下' },
+  { type: 'text', text: '請輸入您的學號與密碼\n格式如下:' },
   { type: 'text', text: 'C107123456\n123456' },
 ];
+
+const logoutMessage = {
+
+};
 
 const courseSelectMessage = {
   type: 'text',
@@ -2235,6 +2239,7 @@ const setMidWarningMessage = midWarningData => new Promise((resolve, reject) => 
 
 module.exports.loginMessage = loginMessage;
 module.exports.loginNotifyMessage = loginNotifyMessage;
+module.exports.logoutMessage = logoutMessage;
 module.exports.courseMessage = courseMessage;
 module.exports.setCourseMessage = setCourseMessage;
 module.exports.courseSelectMessage = courseSelectMessage;
