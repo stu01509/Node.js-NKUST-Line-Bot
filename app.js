@@ -3,7 +3,9 @@ const linebot = require('linebot');
 const getData = require('./libs/getData');
 const userData = require('./libs/userData');
 const profileData = require('./libs/profileData');
+const schoolData = require('./crawler/schoolData');
 const messageTemplate = require('./libs/messageTemplate');
+
 // Loading Config
 require('dotenv').config();
 
@@ -116,10 +118,17 @@ bot.on('message', (event) => {
       break;
     }
 
-    case '刪除': {
-      userData.userRemove(event.source.userId);
+    case '校園資訊': {
+      event.reply(messageTemplate.schoolInfoSelectMessage);
       break;
     }
+
+    case '刪除': {
+      userData.userRemove(event.source.userId);
+      event.reply(messageTemplate.logoutMessage);
+      break;
+    }
+
     default:
   }
 });
@@ -196,5 +205,5 @@ bot.on('postback', (event) => {
 });
 
 bot.listen('/callback', process.env.PORT || 3000, () => {
-  console.log('LineBot is running.');
+  console.log(`LineBot is running in ${process.env.PORT || 3000} PORT.`);
 });
