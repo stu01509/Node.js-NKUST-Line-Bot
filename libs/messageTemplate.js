@@ -20,7 +20,19 @@ const loginNotifyMessage = [
 ];
 
 const logoutMessage = {
-
+  type: 'template',
+  altText: '登出成功',
+  template: {
+    type: 'buttons',
+    title: '登出成功',
+    text: '您已登出系統成功',
+    actions: [{
+      type: 'postback',
+      label: '重新登入',
+      data: 'login',
+    },
+    ],
+  },
 };
 
 const courseSelectMessage = {
@@ -163,6 +175,37 @@ const midWarningSelectMessage = {
           data: 'midWarning&107&1',
         },
       },
+    ],
+  },
+};
+
+const schoolInfoSelectMessage = {
+  type: 'template',
+  altText: '請選擇您要查詢的資訊',
+  template: {
+    type: 'buttons',
+    title: '校園資訊查詢',
+    text: '請選擇您要查詢的校園資訊',
+    actions: [{
+      type: 'postback',
+      label: '最新消息',
+      data: 'news',
+    },
+    {
+      type: 'postback',
+      label: '活動消息',
+      data: 'activity',
+    },
+    {
+      type: 'postback',
+      label: '行政公告',
+      data: 'administrative',
+    },
+    {
+      type: 'postback',
+      label: '徵才公告',
+      data: 'recruit',
+    },
     ],
   },
 };
@@ -2237,6 +2280,120 @@ const setMidWarningMessage = midWarningData => new Promise((resolve, reject) => 
   resolve(midWarningMessage);
 });
 
+let schoolInfoMessage = '';
+const setSchoolInfoMessage = (itemName, itemLink, schoolInfoData) => new Promise((resolve,
+  reject) => {
+  const schoolInfoContent = [];
+
+  for (let i = 0; i < schoolInfoData.length; i += 3) {
+    const index = i;
+    schoolInfoContent.push({
+      type: 'box',
+      layout: 'horizontal',
+      spacing: 'sm',
+      contents: [
+        {
+          type: 'box',
+          layout: 'vertical',
+          flex: 5,
+          contents: [
+            {
+              type: 'text',
+              size: 'md',
+              text: schoolInfoData[index + 1],
+              align: 'start',
+            },
+            {
+              type: 'box',
+              layout: 'baseline',
+              contents: [
+                {
+                  type: 'text',
+                  text: schoolInfoData[index],
+                  align: 'start',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'separator',
+        },
+        {
+          type: 'button',
+          flex: 2,
+          height: 'sm',
+          gravity: 'center',
+          style: 'secondary',
+          action: {
+            type: 'uri',
+            label: '查看',
+            uri: schoolInfoData[index + 2],
+          },
+        },
+      ],
+    },
+    {
+      type: 'separator',
+    });
+  }
+
+  schoolInfoMessage = {
+    type: 'flex',
+    altText: `校園資訊 ${itemName}`,
+    contents: {
+      type: 'carousel',
+      contents: [{
+        type: 'bubble',
+        styles: {
+          footer: {
+            separator: true,
+          },
+        },
+        body: {
+          type: 'box',
+          layout: 'vertical',
+          contents: [
+            {
+              type: 'text',
+              text: itemName,
+              weight: 'bold',
+              size: 'xxl',
+              margin: 'md',
+              color: '#457E9B',
+            },
+            {
+              type: 'separator',
+              margin: 'xxl',
+            },
+            {
+              type: 'box',
+              layout: 'vertical',
+              margin: 'xxl',
+              spacing: 'sm',
+              contents: schoolInfoContent,
+            },
+            {
+              type: 'separator',
+              margin: 'xxl',
+            },
+            {
+              type: 'button',
+              height: 'sm',
+              action: {
+                type: 'uri',
+                label: 'More Info',
+                uri: itemLink,
+              },
+            },
+          ],
+        },
+      }],
+    },
+  };
+  resolve(schoolInfoMessage);
+});
+
 module.exports.loginMessage = loginMessage;
 module.exports.loginNotifyMessage = loginNotifyMessage;
 module.exports.logoutMessage = logoutMessage;
@@ -2252,3 +2409,6 @@ module.exports.leaveSelectMessage = leaveSelectMessage;
 module.exports.midWarningMessage = midWarningMessage;
 module.exports.setMidWarningMessage = setMidWarningMessage;
 module.exports.midWarningSelectMessage = midWarningSelectMessage;
+module.exports.schoolInfoMessage = schoolInfoMessage;
+module.exports.setSchoolInfoMessage = setSchoolInfoMessage;
+module.exports.schoolInfoSelectMessage = schoolInfoSelectMessage;
