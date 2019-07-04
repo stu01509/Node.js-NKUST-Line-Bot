@@ -47,12 +47,12 @@ const getAdministrativeInfo = () => new Promise((resolve, reject) => {
           // 日期
           result.push($$('i').text());
           // 標題
-          result.push($$('a').text());
+          result.push($$('a').text().replace('\n\t\t\t\t', ''));
           // 連結
           result.push($$('a').attr('href'));
         }
       });
-      resolve(result);
+      resolve(['行政公告', ADMINISTRATIVE_URL, result]);
     }
   });
 });
@@ -70,12 +70,12 @@ const getNewsInfo = () => new Promise((resolve, reject) => {
           // 日期
           result.push($$('i').text());
           // 標題
-          result.push($$('a').text());
+          result.push($$('a').text().replace('\n\t\t\t\t', ''));
           // 連結
           result.push($$('a').attr('href'));
         }
       });
-      resolve(result);
+      resolve(['最新消息', NEWS_URL, result]);
     }
   });
 });
@@ -93,12 +93,12 @@ const getAcademicInfo = () => new Promise((resolve, reject) => {
           // 日期
           result.push($$('i').text());
           // 標題
-          result.push($$('a').text());
+          result.push($$('a').text().replace('\n\t\t\t\t', ''));
           // 連結
           result.push($$('a').attr('href'));
         }
       });
-      resolve(result);
+      resolve(['學術公告', ACADEMIC_URL, result]);
     }
   });
 });
@@ -116,12 +116,12 @@ const getActivityInfo = () => new Promise((resolve, reject) => {
           // 日期
           result.push($$('i').text());
           // 標題
-          result.push($$('a').text());
+          result.push($$('a').text().replace('\n\t\t\t\t', ''));
           // 連結
           result.push($$('a').attr('href'));
         }
       });
-      resolve(result);
+      resolve(['活動消息', ACTIVITY_URL, result]);
     }
   });
 });
@@ -139,12 +139,12 @@ const getRecruitInfo = () => new Promise((resolve, reject) => {
           // 日期
           result.push($$('i').text());
           // 標題
-          result.push($$('a').text());
+          result.push($$('a').text().replace('\n\t\t\t\t', ''));
           // 連結
           result.push($$('a').attr('href'));
         }
       });
-      resolve(result);
+      resolve(['徵才公告', RECRUIT_URL, result]);
     }
   });
 });
