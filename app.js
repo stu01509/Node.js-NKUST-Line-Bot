@@ -198,6 +198,66 @@ bot.on('postback', (event) => {
       break;
     }
 
+    case 'news': {
+      schoolData.getNewsInfo()
+        .then((newsInfoResult) => {
+          messageTemplate.setSchoolInfoMessage(
+            newsInfoResult[0],
+            newsInfoResult[1],
+            newsInfoResult[2],
+          )
+            .then((newsInfoMessage) => {
+              event.reply(newsInfoMessage);
+            });
+        });
+      break;
+    }
+
+    case 'activity': {
+      schoolData.getActivityInfo()
+        .then((activityInfoResult) => {
+          messageTemplate.setSchoolInfoMessage(
+            activityInfoResult[0],
+            activityInfoResult[1],
+            activityInfoResult[2],
+          )
+            .then((activityInfoMessage) => {
+              event.reply(activityInfoMessage);
+            });
+        });
+      break;
+    }
+
+    case 'administrative': {
+      schoolData.getAdministrativeInfo()
+        .then((administrativeInfoResult) => {
+          messageTemplate.setSchoolInfoMessage(
+            administrativeInfoResult[0],
+            administrativeInfoResult[1],
+            administrativeInfoResult[2],
+          )
+            .then((administrativeMessage) => {
+              event.reply(administrativeMessage);
+            });
+        });
+      break;
+    }
+
+    case 'recruit': {
+      schoolData.getRecruitInfo()
+        .then((recruitInfoResult) => {
+          messageTemplate.setSchoolInfoMessage(
+            recruitInfoResult[0],
+            recruitInfoResult[1],
+            recruitInfoResult[2],
+          )
+            .then((recruitInfoMessage) => {
+              event.reply(recruitInfoMessage);
+            });
+        });
+      break;
+    }
+
     default: {
       break;
     }
