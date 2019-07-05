@@ -1,6 +1,6 @@
 const linebot = require('linebot');
 
-const getData = require('./libs/getData');
+const personalData = require('./crawler/personalData');
 const userData = require('./libs/userData');
 const profileData = require('./libs/profileData');
 const schoolData = require('./crawler/schoolData');
@@ -48,7 +48,7 @@ bot.on('message', (event) => {
   }
 
   if (userData.createMode === true) {
-    getData.userCheck(account, passwd)
+    personalData.userCheck(account, passwd)
       .then((checkResult) => {
         userData.userCreate(event.source.userId, account, passwd)
           .then((loginMessage) => {
@@ -71,7 +71,7 @@ bot.on('message', (event) => {
 
   switch (userText) {
     case '個人課表': {
-      getData.userLogin(event.source.userId)
+      personalData.userLogin(event.source.userId)
         .then((loingResult) => {
           if (loingResult === '請先登入取得資料') {
             event.reply(messageTemplate.loginMessage);
@@ -83,7 +83,7 @@ bot.on('message', (event) => {
     }
 
     case '成績查詢': {
-      getData.userLogin(event.source.userId)
+      personalData.userLogin(event.source.userId)
         .then((loginResult) => {
           if (loginResult === '請先登入取得資料') {
             event.reply(messageTemplate.loginMessage);
@@ -95,7 +95,7 @@ bot.on('message', (event) => {
     }
 
     case '曠課/請假紀錄': {
-      getData.userLogin(event.source.userId)
+      personalData.userLogin(event.source.userId)
         .then((loginResult) => {
           if (loginResult === '請先登入取得資料') {
             event.reply(messageTemplate.loginMessage);
@@ -107,7 +107,7 @@ bot.on('message', (event) => {
     }
 
     case '期中預警': {
-      getData.userLogin(event.source.userId)
+      personalData.userLogin(event.source.userId)
         .then((loginResult) => {
           if (loginResult === '請先登入取得資料') {
             event.reply(messageTemplate.loginMessage);
@@ -147,8 +147,8 @@ bot.on('postback', (event) => {
     }
 
     case 'course': {
-      getData.setSemesterInfo(postback[1], postback[2]);
-      getData.getCourse()
+      personalData.setSemesterInfo(postback[1], postback[2]);
+      personalData.getCourse()
         .then((courseReult) => {
           messageTemplate.setCourseMessage(courseReult)
             .then((courseMessage) => {
@@ -159,8 +159,8 @@ bot.on('postback', (event) => {
     }
 
     case 'score': {
-      getData.setSemesterInfo(postback[1], postback[2]);
-      getData.getScore()
+      personalData.setSemesterInfo(postback[1], postback[2]);
+      personalData.getScore()
         .then((scoreResult) => {
           messageTemplate.setScoreMessage(scoreResult[0], scoreResult[1])
             .then((scoreMessage) => {
@@ -171,8 +171,8 @@ bot.on('postback', (event) => {
     }
 
     case 'leave': {
-      getData.setSemesterInfo(postback[1], postback[2]);
-      getData.getLeave()
+      personalData.setSemesterInfo(postback[1], postback[2]);
+      personalData.getLeave()
         .then((leaveResult) => {
           if (leaveResult.length === 1) {
             event.reply('您沒有任何缺曠課紀錄');
@@ -187,8 +187,8 @@ bot.on('postback', (event) => {
     }
 
     case 'midWarning': {
-      getData.setSemesterInfo(postback[1], postback[2]);
-      getData.getMidWarning()
+      personalData.setSemesterInfo(postback[1], postback[2]);
+      personalData.getMidWarning()
         .then((midWarningResult) => {
           messageTemplate.setMidWarningMessage(midWarningResult)
             .then((midWarningMessage) => {
