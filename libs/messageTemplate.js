@@ -210,6 +210,60 @@ const schoolInfoSelectMessage = {
   },
 };
 
+const phoneNumberSelectMessage = {
+  type: 'text',
+  text: '請選擇您要查詢的校區',
+  quickReply: {
+    items: [
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '建工',
+          text: '建工',
+          data: 'jiangong',
+        },
+      },
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '燕巢',
+          text: '燕巢',
+          data: 'yanchao',
+        },
+      },
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '第一',
+          text: '第一',
+          data: 'first',
+        },
+      },
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '楠梓',
+          text: '楠梓',
+          data: 'nanzi',
+        },
+      },
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '旗津',
+          text: '旗津',
+          data: 'cijin',
+        },
+      },
+    ],
+  },
+};
+
 let courseMessage = '';
 const setCourseMessage = courseData => new Promise((resolve, reject) => {
   courseMessage = {
@@ -2394,6 +2448,507 @@ const setSchoolInfoMessage = (itemName, itemLink, schoolInfoData) => new Promise
   resolve(schoolInfoMessage);
 });
 
+const jiangongPhoneNumber = {
+  type: 'flex',
+  altText: '建工校區',
+  contents: {
+    type: 'carousel',
+    contents: [{
+      type: 'bubble',
+      styles: {
+        footer: {
+          separator: true,
+        },
+      },
+      body: {
+        type: 'box',
+        layout: 'vertical',
+        contents: [
+          {
+            type: 'text',
+            text: '建工校區',
+            weight: 'bold',
+            size: 'xxl',
+            margin: 'xl',
+            color: '#457E9B',
+          },
+          {
+            type: 'text',
+            text: '校安中心',
+            weight: 'bold',
+            color: '#457E9B',
+          },
+          {
+            type: 'button',
+            height: 'sm',
+            action: {
+              type: 'uri',
+              label: '0800550995,1',
+              uri: 'tel:0800550995,1',
+            },
+          },
+          {
+            type: 'separator',
+          },
+          {
+            type: 'text',
+            text: '校安專線',
+            weight: 'bold',
+            color: '#457E9B',
+          },
+          {
+            type: 'button',
+            height: 'sm',
+            action: {
+              type: 'uri',
+              label: '0916507506',
+              uri: 'tel:0916507506',
+            },
+          },
+          {
+            type: 'separator',
+          },
+          {
+            type: 'text',
+            text: '事務組',
+            weight: 'bold',
+            color: '#457E9B',
+          },
+          {
+            type: 'button',
+            height: 'sm',
+            action: {
+              type: 'uri',
+              label: '073814526,2650',
+              uri: 'tel:073814526,2650',
+            },
+          },
+          {
+            type: 'separator',
+          },
+          {
+            type: 'text',
+            text: '營繕組',
+            weight: 'bold',
+            color: '#457E9B',
+          },
+          {
+            type: 'button',
+            height: 'sm',
+            action: {
+              type: 'uri',
+              label: '073814526,2630',
+              uri: 'tel:073814526,2630',
+            },
+          },
+          {
+            type: 'separator',
+          },
+          {
+            type: 'text',
+            text: '課外活動組',
+            weight: 'bold',
+            color: '#457E9B',
+          },
+          {
+            type: 'button',
+            height: 'sm',
+            action: {
+              type: 'uri',
+              label: '073814526,2525',
+              uri: 'tel:073814526,2525',
+            },
+          },
+          {
+            type: 'separator',
+          },
+          {
+            type: 'text',
+            text: '圖書館',
+            weight: 'bold',
+            color: '#457E9B',
+          },
+          {
+            type: 'button',
+            height: 'sm',
+            action: {
+              type: 'uri',
+              label: '073814526,3100',
+              uri: 'tel:073814526,3100',
+            },
+          },
+          {
+            type: 'separator',
+          },
+          {
+            type: 'button',
+            height: 'sm',
+            action: {
+              type: 'uri',
+              label: 'More Info',
+              uri: 'http://tel.nkust.edu.tw/',
+            },
+          },
+        ],
+      },
+    }],
+  },
+};
+
+const yanchaoPhoneNumber = {
+  type: 'flex',
+  altText: '燕巢校區',
+  contents: {
+    type: 'carousel',
+    contents: [{
+      type: 'bubble',
+      styles: {
+        footer: {
+          separator: true,
+        },
+      },
+      body: {
+        type: 'box',
+        layout: 'vertical',
+        contents: [
+          {
+            type: 'text',
+            text: '燕巢校區',
+            weight: 'bold',
+            size: 'xxl',
+            margin: 'xl',
+            color: '#457E9B',
+          },
+          {
+            type: 'text',
+            text: '校安中心',
+            weight: 'bold',
+            color: '#457E9B',
+          },
+          {
+            type: 'button',
+            height: 'sm',
+            action: {
+              type: 'uri',
+              label: '0800550995,4',
+              uri: 'tel:0800550995,4',
+            },
+          },
+          {
+            type: 'separator',
+          },
+          {
+            type: 'text',
+            text: '校安專線',
+            weight: 'bold',
+            color: '#457E9B',
+          },
+          {
+            type: 'button',
+            height: 'sm',
+            action: {
+              type: 'uri',
+              label: '0925350995',
+              uri: 'tel:0925350995',
+            },
+          },
+          {
+            type: 'separator',
+          },
+          {
+            type: 'button',
+            height: 'sm',
+            action: {
+              type: 'uri',
+              label: 'More Info',
+              uri: 'http://tel.nkust.edu.tw/',
+            },
+          },
+        ],
+      },
+    }],
+  },
+};
+
+const firstPhoneNumber = {
+  type: 'flex',
+  altText: '第一校區',
+  contents: {
+    type: 'carousel',
+    contents: [{
+      type: 'bubble',
+      styles: {
+        footer: {
+          separator: true,
+        },
+      },
+      body: {
+        type: 'box',
+        layout: 'vertical',
+        contents: [
+          {
+            type: 'text',
+            text: '第一校區',
+            weight: 'bold',
+            size: 'xxl',
+            margin: 'xl',
+            color: '#457E9B',
+          },
+          {
+            type: 'text',
+            text: '校安中心',
+            weight: 'bold',
+            color: '#457E9B',
+          },
+          {
+            type: 'button',
+            height: 'sm',
+            action: {
+              type: 'uri',
+              label: '0800550995,3',
+              uri: 'tel:0800550995,3',
+            },
+          },
+          {
+            type: 'separator',
+          },
+          {
+            type: 'text',
+            text: '生輔組',
+            weight: 'bold',
+            color: '#457E9B',
+          },
+          {
+            type: 'button',
+            height: 'sm',
+            action: {
+              type: 'uri',
+              label: '076011000,31212',
+              uri: 'tel:076011000,31212',
+            },
+          },
+          {
+            type: 'separator',
+          },
+          {
+            type: 'text',
+            text: '課外活動組',
+            weight: 'bold',
+            color: '#457E9B',
+          },
+          {
+            type: 'button',
+            height: 'sm',
+            action: {
+              type: 'uri',
+              label: '076011000,31211',
+              uri: 'tel:076011000,31211',
+            },
+          },
+          {
+            type: 'separator',
+          },
+          {
+            type: 'text',
+            text: '圖書館',
+            weight: 'bold',
+            color: '#457E9B',
+          },
+          {
+            type: 'button',
+            height: 'sm',
+            action: {
+              type: 'uri',
+              label: '076011000,1599',
+              uri: 'tel:076011000,1599',
+            },
+          },
+          {
+            type: 'separator',
+          },
+          {
+            type: 'button',
+            height: 'sm',
+            action: {
+              type: 'uri',
+              label: 'More Info',
+              uri: 'http://tel.nkust.edu.tw/',
+            },
+          },
+        ],
+      },
+    }],
+  },
+};
+
+const nanziPhoneNumber = {
+  type: 'flex',
+  altText: '楠梓校區',
+  contents: {
+    type: 'carousel',
+    contents: [{
+      type: 'bubble',
+      styles: {
+        footer: {
+          separator: true,
+        },
+      },
+      body: {
+        type: 'box',
+        layout: 'vertical',
+        contents: [
+          {
+            type: 'text',
+            text: '楠梓校區',
+            weight: 'bold',
+            size: 'xxl',
+            margin: 'xl',
+            color: '#457E9B',
+          },
+          {
+            type: 'text',
+            text: '校安中心',
+            weight: 'bold',
+            color: '#457E9B',
+          },
+          {
+            type: 'button',
+            height: 'sm',
+            action: {
+              type: 'uri',
+              label: '0800550995,2',
+              uri: 'tel:0800550995,2',
+            },
+          },
+          {
+            type: 'separator',
+          },
+          {
+            type: 'text',
+            text: '課外活動組',
+            weight: 'bold',
+            color: '#457E9B',
+          },
+          {
+            type: 'button',
+            height: 'sm',
+            action: {
+              type: 'uri',
+              label: '073617141,22070',
+              uri: 'tel:073617141,22070',
+            },
+          },
+          {
+            type: 'separator',
+          },
+          {
+            type: 'button',
+            height: 'sm',
+            action: {
+              type: 'uri',
+              label: 'More Info',
+              uri: 'http://tel.nkust.edu.tw/',
+            },
+          },
+        ],
+      },
+    }],
+  },
+};
+
+const cijinPhoneNumber = {
+  type: 'flex',
+  altText: '旗津校區',
+  contents: {
+    type: 'carousel',
+    contents: [{
+      type: 'bubble',
+      styles: {
+        footer: {
+          separator: true,
+        },
+      },
+      body: {
+        type: 'box',
+        layout: 'vertical',
+        contents: [
+          {
+            type: 'text',
+            text: '旗津校區',
+            weight: 'bold',
+            size: 'xxl',
+            margin: 'xl',
+            color: '#457E9B',
+          },
+          {
+            type: 'text',
+            text: '校安中心',
+            weight: 'bold',
+            color: '#457E9B',
+          },
+          {
+            type: 'button',
+            height: 'sm',
+            action: {
+              type: 'uri',
+              label: '0800550995,5',
+              uri: 'tel:0800550995,5',
+            },
+          },
+          {
+            type: 'separator',
+          },
+          {
+            type: 'text',
+            text: '生輔組',
+            weight: 'bold',
+            color: '#457E9B',
+          },
+          {
+            type: 'button',
+            height: 'sm',
+            action: {
+              type: 'uri',
+              label: '073617141,23967',
+              uri: 'tel:073617141,23967',
+            },
+          },
+          {
+            type: 'separator',
+          },
+          {
+            type: 'text',
+            text: '課外活動組',
+            weight: 'bold',
+            color: '#457E9B',
+          },
+          {
+            type: 'button',
+            height: 'sm',
+            action: {
+              type: 'uri',
+              label: '073617141,25065',
+              uri: 'tel:073617141,25065',
+            },
+          },
+          {
+            type: 'separator',
+          },
+          {
+            type: 'button',
+            height: 'sm',
+            action: {
+              type: 'uri',
+              label: 'More Info',
+              uri: 'http://tel.nkust.edu.tw/',
+            },
+          },
+        ],
+      },
+    }],
+  },
+};
+
 module.exports.loginMessage = loginMessage;
 module.exports.loginNotifyMessage = loginNotifyMessage;
 module.exports.logoutMessage = logoutMessage;
@@ -2412,3 +2967,9 @@ module.exports.midWarningSelectMessage = midWarningSelectMessage;
 module.exports.schoolInfoMessage = schoolInfoMessage;
 module.exports.setSchoolInfoMessage = setSchoolInfoMessage;
 module.exports.schoolInfoSelectMessage = schoolInfoSelectMessage;
+module.exports.phoneNumberSelectMessage = phoneNumberSelectMessage;
+module.exports.jiangongPhoneNumber = jiangongPhoneNumber;
+module.exports.yanchaoPhoneNumber = yanchaoPhoneNumber;
+module.exports.firstPhoneNumber = firstPhoneNumber;
+module.exports.nanziPhoneNumber = nanziPhoneNumber;
+module.exports.cijinPhoneNumber = cijinPhoneNumber;

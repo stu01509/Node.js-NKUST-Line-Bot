@@ -123,6 +123,11 @@ bot.on('message', (event) => {
       break;
     }
 
+    case '校園分機': {
+      event.reply(messageTemplate.phoneNumberSelectMessage);
+      break;
+    }
+
     case '刪除': {
       userData.userRemove(event.source.userId);
       event.reply(messageTemplate.logoutMessage);
@@ -255,6 +260,31 @@ bot.on('postback', (event) => {
               event.reply(recruitInfoMessage);
             });
         });
+      break;
+    }
+
+    case 'jiangong': {
+      event.reply(messageTemplate.jiangongPhoneNumber);
+      break;
+    }
+
+    case 'yanchao': {
+      event.reply(messageTemplate.yanchaoPhoneNumber);
+      break;
+    }
+
+    case 'first': {
+      event.reply(messageTemplate.firstPhoneNumber);
+      break;
+    }
+
+    case 'nanzi': {
+      event.reply(messageTemplate.nanziPhoneNumber);
+      break;
+    }
+
+    case 'cijin': {
+      event.reply(messageTemplate.cijinPhoneNumber);
       break;
     }
 
