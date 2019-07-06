@@ -128,7 +128,7 @@ bot.on('message', (event) => {
       break;
     }
 
-    case '刪除': {
+    case '登出': {
       userData.userRemove(event.source.userId);
       event.reply(messageTemplate.logoutMessage);
       break;
