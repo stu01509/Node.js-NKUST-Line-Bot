@@ -67,6 +67,42 @@ const courseSelectMessage = {
           data: 'course&107&1',
         },
       },
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '106-下',
+          text: '106-下',
+          data: 'course&106&2',
+        },
+      },
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '106-上',
+          text: '106-上',
+          data: 'course&106&1',
+        },
+      },
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '105-下',
+          text: '105-下',
+          data: 'course&105&2',
+        },
+      },
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '105-上',
+          text: '105-上',
+          data: 'course&105&1',
+        },
+      },
     ],
   },
 };
@@ -103,6 +139,42 @@ const scoreSelectMessage = {
           data: 'score&107&1',
         },
       },
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '106-下',
+          text: '106-下',
+          data: 'score&106&2',
+        },
+      },
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '106-上',
+          text: '106-上',
+          data: 'score&106&1',
+        },
+      },
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '105-下',
+          text: '105-下',
+          data: 'score&105&2',
+        },
+      },
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '105-上',
+          text: '105-上',
+          data: 'score&105&1',
+        },
+      },
     ],
   },
 };
@@ -137,6 +209,42 @@ const leaveSelectMessage = {
           label: '107-上',
           text: '107-上',
           data: 'leave&107&1',
+        },
+      },
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '106-下',
+          text: '106-下',
+          data: 'leave&106&2',
+        },
+      },
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '106-上',
+          text: '106-上',
+          data: 'leave&106&1',
+        },
+      },
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '105-下',
+          text: '105-下',
+          data: 'leave&105&2',
+        },
+      },
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '105-上',
+          text: '105-上',
+          data: 'leave&105&1',
         },
       },
     ],
