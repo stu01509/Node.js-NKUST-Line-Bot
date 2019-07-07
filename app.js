@@ -155,10 +155,14 @@ bot.on('postback', (event) => {
       personalData.setSemesterInfo(postback[1], postback[2]);
       personalData.getCourse()
         .then((courseReult) => {
-          messageTemplate.setCourseMessage(courseReult)
-            .then((courseMessage) => {
-              event.reply(courseMessage);
-            });
+          if (courseReult.length === 0) {
+            event.reply('查無您的選課資料!');
+          } else {
+            messageTemplate.setCourseMessage(courseReult)
+              .then((courseMessage) => {
+                event.reply(courseMessage);
+              });
+          }
         });
       break;
     }
@@ -167,10 +171,14 @@ bot.on('postback', (event) => {
       personalData.setSemesterInfo(postback[1], postback[2]);
       personalData.getScore()
         .then((scoreResult) => {
-          messageTemplate.setScoreMessage(scoreResult[0], scoreResult[1])
-            .then((scoreMessage) => {
-              event.reply(scoreMessage);
-            });
+          if (scoreResult[0].length === 0) {
+            event.reply('查無您的成績資料!');
+          } else {
+            messageTemplate.setScoreMessage(scoreResult[0], scoreResult[1])
+              .then((scoreMessage) => {
+                event.reply(scoreMessage);
+              });
+          }
         });
       break;
     }
@@ -179,7 +187,7 @@ bot.on('postback', (event) => {
       personalData.setSemesterInfo(postback[1], postback[2]);
       personalData.getLeave()
         .then((leaveResult) => {
-          if (leaveResult.length === 1) {
+          if (leaveResult.length === 0) {
             event.reply('您沒有任何缺曠課紀錄');
           } else {
             messageTemplate.setLeaveMessage(leaveResult)
