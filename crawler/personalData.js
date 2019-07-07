@@ -199,10 +199,6 @@ const getLeave = () => new Promise((resolve, reject) => {
           result.push($(title).text());
         }
       });
-      // 如果沒有 缺曠請假資料 自動補上結果
-      if (result.length === 0) {
-        result.push('查無缺曠請假資料！');
-      }
       resolve(result);
     });
   });
