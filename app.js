@@ -123,14 +123,8 @@ bot.on('message', (event) => {
       break;
     }
 
-    case '校園分機': {
-      event.reply(messageTemplate.phoneNumberSelectMessage);
-      break;
-    }
-
-    case '登出': {
-      userData.userRemove(event.source.userId);
-      event.reply(messageTemplate.logoutMessage);
+    case '其他功能': {
+      event.reply(messageTemplate.functionSelectMessage);
       break;
     }
 
@@ -148,6 +142,12 @@ bot.on('postback', (event) => {
     case 'login': {
       userData.createMode = true;
       event.reply(messageTemplate.loginNotifyMessage);
+      break;
+    }
+
+    case 'logout': {
+      userData.userRemove(event.source.userId);
+      event.reply(messageTemplate.logoutMessage);
       break;
     }
 
@@ -268,6 +268,11 @@ bot.on('postback', (event) => {
               event.reply(recruitInfoMessage);
             });
         });
+      break;
+    }
+
+    case 'phoneNumber': {
+      event.reply(messageTemplate.phoneNumberSelectMessage);
       break;
     }
 
