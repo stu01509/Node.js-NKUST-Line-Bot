@@ -35,6 +35,32 @@ const logoutMessage = {
   },
 };
 
+const functionSelectMessage = {
+  type: 'template',
+  altText: '其他功能選擇',
+  template: {
+    type: 'buttons',
+    title: '其他功能選擇',
+    text: ' 請選擇功能',
+    actions: [{
+      type: 'postback',
+      label: '登出',
+      data: 'logout',
+    },
+    {
+      type: 'postback',
+      label: '校園分機查詢',
+      data: 'phoneNumber',
+    },
+    {
+      type: 'uri',
+      label: '分享給朋友',
+      uri: 'line://nv/recommendOA/@642fwkuy',
+    },
+    ],
+  },
+};
+
 const courseSelectMessage = {
   type: 'text',
   text: '請選擇您要查詢的學期',
@@ -3060,6 +3086,7 @@ const cijinPhoneNumber = {
 module.exports.loginMessage = loginMessage;
 module.exports.loginNotifyMessage = loginNotifyMessage;
 module.exports.logoutMessage = logoutMessage;
+module.exports.functionSelectMessage = functionSelectMessage;
 module.exports.courseMessage = courseMessage;
 module.exports.setCourseMessage = setCourseMessage;
 module.exports.courseSelectMessage = courseSelectMessage;
