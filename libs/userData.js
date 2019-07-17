@@ -1,7 +1,7 @@
 const UserSchema = require('../schema/user/User');
 
-const createMode = false;
-
+// Record in Login Mode userId
+const inCreateModeUser = [];
 const userCreate = (userId, uid, pwd) => new Promise((resolve, reject) => {
   const insertUserData = new UserSchema({
     userId,
@@ -30,6 +30,6 @@ const userRemove = userId => new Promise((resolve, reject) => {
   });
 });
 
-module.exports.createMode = createMode;
+module.exports.inCreateModeUser = inCreateModeUser;
 module.exports.userCreate = userCreate;
 module.exports.userRemove = userRemove;
