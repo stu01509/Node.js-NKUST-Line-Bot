@@ -47,7 +47,7 @@ bot.on('message', (event) => {
       userText.split('\n')[1]];
   }
 
-  if (userData.createMode === true) {
+  if (userData.inCreateModeUser.indexOf(event.source.userId) !== -1) {
     personalData.userCheck(account, passwd)
       .then((checkResult) => {
         userData.userCreate(event.source.userId, account, passwd)
@@ -66,7 +66,8 @@ bot.on('message', (event) => {
         event.reply([`您輸入的學號為: ${account}\n密碼為: ${passwd}`,
           '登入失敗或帳號密碼錯誤']);
       });
-    userData.createMode = false;
+    const removeIndex = userData.inCreateModeUser.indexOf(event.source.userId);
+    userData.inCreateModeUser.splice(removeIndex, 1);
   }
 
   switch (userText) {
@@ -140,7 +141,7 @@ bot.on('postback', (event) => {
 
   switch (postback[0]) {
     case 'login': {
-      userData.createMode = true;
+      userData.inCreateModeUser.push(event.source.userId);
       event.reply(messageTemplate.loginNotifyMessage);
       break;
     }
@@ -152,60 +153,72 @@ bot.on('postback', (event) => {
     }
 
     case 'course': {
-      personalData.setSemesterInfo(postback[1], postback[2]);
-      personalData.getCourse()
-        .then((courseReult) => {
-          if (courseReult.length === 0) {
-            event.reply('查無您的選課資料!');
-          } else {
-            messageTemplate.setCourseMessage(courseReult)
-              .then((courseMessage) => {
-                event.reply(courseMessage);
-              });
-          }
+      personalData.userLogin(event.source.userId)
+        .then((loginResult) => {
+          personalData.setSemesterInfo(postback[1], postback[2]);
+          personalData.getCourse(loginResult[0], loginResult[1])
+            .then((courseReult) => {
+              if (courseReult.length === 0) {
+                event.reply('查無您的選課資料!');
+              } else {
+                messageTemplate.setCourseMessage(courseReult)
+                  .then((courseMessage) => {
+                    event.reply(courseMessage);
+                  });
+              }
+            });
         });
       break;
     }
 
     case 'score': {
-      personalData.setSemesterInfo(postback[1], postback[2]);
-      personalData.getScore()
-        .then((scoreResult) => {
-          if (scoreResult[0].length === 0) {
-            event.reply('查無您的成績資料!');
-          } else {
-            messageTemplate.setScoreMessage(scoreResult[0], scoreResult[1])
-              .then((scoreMessage) => {
-                event.reply(scoreMessage);
-              });
-          }
+      personalData.userLogin(event.source.userId)
+        .then((loginResult) => {
+          personalData.setSemesterInfo(postback[1], postback[2]);
+          personalData.getScore(loginResult[0], loginResult[1])
+            .then((scoreResult) => {
+              if (scoreResult[0].length === 0) {
+                event.reply('查無您的成績資料!');
+              } else {
+                messageTemplate.setScoreMessage(scoreResult[0], scoreResult[1])
+                  .then((scoreMessage) => {
+                    event.reply(scoreMessage);
+                  });
+              }
+            });
         });
       break;
     }
 
     case 'leave': {
-      personalData.setSemesterInfo(postback[1], postback[2]);
-      personalData.getLeave()
-        .then((leaveResult) => {
-          if (leaveResult.length === 0) {
-            event.reply('您沒有任何缺曠課紀錄');
-          } else {
-            messageTemplate.setLeaveMessage(leaveResult)
-              .then((leaveMessage) => {
-                event.reply(leaveMessage);
-              });
-          }
-        });
+      personalData.userLogin(event.source.userId)
+        .then((loginResult) => {
+          personalData.setSemesterInfo(postback[1], postback[2]);
+          personalData.getLeave(loginResult[0], loginResult[1])
+            .then((leaveResult) => {
+              if (leaveResult.length === 0) {
+                event.reply('您沒有任何缺曠課紀錄');
+              } else {
+                messageTemplate.setLeaveMessage(leaveResult)
+                  .then((leaveMessage) => {
+                    event.reply(leaveMessage);
+                  });
+              }
+            });
+        })
       break;
     }
 
     case 'midWarning': {
-      personalData.setSemesterInfo(postback[1], postback[2]);
-      personalData.getMidWarning()
-        .then((midWarningResult) => {
-          messageTemplate.setMidWarningMessage(midWarningResult)
-            .then((midWarningMessage) => {
-              event.reply(midWarningMessage);
+      personalData.userLogin(event.reply.userId)
+        .then((loginResult) => {
+          personalData.setSemesterInfo(postback[1], postback[2]);
+          personalData.getMidWarning(loginResult[0], loginResult[1])
+            .then((midWarningResult) => {
+              messageTemplate.setMidWarningMessage(midWarningResult)
+                .then((midWarningMessage) => {
+                  event.reply(midWarningMessage);
+                });
             });
         });
       break;

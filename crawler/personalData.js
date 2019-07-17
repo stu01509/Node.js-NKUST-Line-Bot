@@ -1,4 +1,4 @@
-let request = require('request');
+const request = require('request');
 const cheerio = require('cheerio');
 
 const BASE_URL = 'https://webap.nkust.edu.tw/nkust/';
@@ -82,23 +82,23 @@ const userLogin = userId => new Promise((resolve, reject) => {
     } else if (result === null) {
       resolve('請先登入取得資料');
     } else {
-      loginInfo.uid = result.uid;
-      loginInfo.pwd = result.pwd;
-      resolve();
+      resolve([result.uid, result.pwd]);
     }
   });
 });
 
-const getCourse = () => new Promise((resolve, reject) => {
+const getCourse = (uid, pwd) => new Promise((resolve, reject) => {
+  loginInfo.uid = uid;
+  loginInfo.pwd = pwd;
   const courseCookie = request.jar();
-  request = request.defaults({ jar: courseCookie });
+  const courseRequest = request.defaults({ jar: courseCookie });
 
-  request(loginOptions, (loginErr, loginRes) => {
+  courseRequest(loginOptions, (loginErr, loginRes) => {
     if (loginErr || loginRes.statusCode !== 200) {
       reject();
       return;
     }
-    request(courseOptions, (err, res, body) => {
+    courseRequest(courseOptions, (err, res, body) => {
       if (err || res.statusCode !== 200) {
         reject();
         return;
@@ -120,16 +120,18 @@ const getCourse = () => new Promise((resolve, reject) => {
   });
 });
 
-const getScore = () => new Promise((resolve, reject) => {
+const getScore = (uid, pwd) => new Promise((resolve, reject) => {
+  loginInfo.uid = uid;
+  loginInfo.pwd = pwd;
   const scoreCookie = request.jar();
-  request = request.defaults({ jar: scoreCookie });
+  const scoreRequest = request.defaults({ jar: scoreCookie });
 
-  request(loginOptions, (loginErr, loginRes) => {
+  scoreRequest(loginOptions, (loginErr, loginRes) => {
     if (loginErr || loginRes.statusCode !== 200) {
       reject();
       return;
     }
-    request(scoreOptions, (err, res, body) => {
+    scoreRequest(scoreOptions, (err, res, body) => {
       if (err || res.statusCode !== 200) {
         reject();
         return;
@@ -175,16 +177,18 @@ const getScore = () => new Promise((resolve, reject) => {
   });
 });
 
-const getLeave = () => new Promise((resolve, reject) => {
+const getLeave = (uid, pwd) => new Promise((resolve, reject) => {
+  loginInfo.uid = uid;
+  loginInfo.pwd = pwd;
   const leaveCookie = request.jar();
-  request = request.defaults({ jar: leaveCookie });
+  const leaveRequest = request.defaults({ jar: leaveCookie });
 
-  request(loginOptions, (loginErr, loginRes) => {
+  leaveRequest(loginOptions, (loginErr, loginRes) => {
     if (loginErr || loginRes.statusCode !== 200) {
       reject();
       return;
     }
-    request(leaveOptions, (err, res, body) => {
+    leaveRequest(leaveOptions, (err, res, body) => {
       if (err || res.statusCode !== 200) {
         reject();
         return;
@@ -204,16 +208,18 @@ const getLeave = () => new Promise((resolve, reject) => {
   });
 });
 
-const getMidWarning = () => new Promise((resolve, reject) => {
+const getMidWarning = (uid, pwd) => new Promise((resolve, reject) => {
+  loginInfo.uid = uid;
+  loginInfo.pwd = pwd;
   const midWarningCookie = request.jar();
-  request = request.defaults({ jar: midWarningCookie });
+  const midWarningRequest = request.defaults({ jar: midWarningCookie });
 
-  request(loginOptions, (loginErr, loginRes) => {
+  midWarningRequest(loginOptions, (loginErr, loginRes) => {
     if (loginErr || loginRes.statusCode !== 200) {
       reject();
       return;
     }
-    request(midWarningOptions, (err, res, body) => {
+    midWarningRequest(midWarningOptions, (err, res, body) => {
       if (err || res.statusCode !== 200) {
         reject();
         return;
