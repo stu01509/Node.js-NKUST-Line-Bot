@@ -40,17 +40,22 @@ bot.on('follow', (event) => {
 
 bot.on('message', (event) => {
   const userText = event.message.text;
+  const { userId } = event.source;
+
   let account = '';
   let passwd = '';
+
+  // Check send message type as a txt message
   if (userText !== undefined) {
     [account, passwd] = [userText.split('\n')[0],
       userText.split('\n')[1]];
   }
 
-  if (userData.inCreateModeUser.indexOf(event.source.userId) !== -1) {
+  // User enter account and password
+  if (userData.inCreateModeUser.indexOf(userId) !== -1) {
     personalData.userCheck(account, passwd)
       .then((checkResult) => {
-        userData.userCreate(event.source.userId, account, passwd)
+        userData.userCreate(userId, account, passwd)
           .then((loginMessage) => {
             event.reply([
               `您輸入的學號為: ${account}\n密碼為: ${passwd}`,
@@ -66,13 +71,15 @@ bot.on('message', (event) => {
         event.reply([`您輸入的學號為: ${account}\n密碼為: ${passwd}`,
           '登入失敗或帳號密碼錯誤']);
       });
-    const removeIndex = userData.inCreateModeUser.indexOf(event.source.userId);
+
+    // Finish login mode remove userId from inCreateModeUser array
+    const removeIndex = userData.inCreateModeUser.indexOf(userId);
     userData.inCreateModeUser.splice(removeIndex, 1);
   }
 
   switch (userText) {
     case '個人課表': {
-      personalData.userLogin(event.source.userId)
+      personalData.userLogin(userId)
         .then((loingResult) => {
           if (loingResult === '請先登入取得資料') {
             event.reply(messageTemplate.loginMessage);
@@ -84,7 +91,7 @@ bot.on('message', (event) => {
     }
 
     case '成績查詢': {
-      personalData.userLogin(event.source.userId)
+      personalData.userLogin(userId)
         .then((loginResult) => {
           if (loginResult === '請先登入取得資料') {
             event.reply(messageTemplate.loginMessage);
@@ -96,7 +103,7 @@ bot.on('message', (event) => {
     }
 
     case '曠課/請假紀錄': {
-      personalData.userLogin(event.source.userId)
+      personalData.userLogin(userId)
         .then((loginResult) => {
           if (loginResult === '請先登入取得資料') {
             event.reply(messageTemplate.loginMessage);
@@ -108,7 +115,7 @@ bot.on('message', (event) => {
     }
 
     case '期中預警': {
-      personalData.userLogin(event.source.userId)
+      personalData.userLogin(userId)
         .then((loginResult) => {
           if (loginResult === '請先登入取得資料') {
             event.reply(messageTemplate.loginMessage);
@@ -138,22 +145,24 @@ bot.on('postback', (event) => {
   // postback[1] 學年
   // postback[2] 學期
   const postback = event.postback.data.split('&');
+  const { userId } = event.source;
 
   switch (postback[0]) {
     case 'login': {
-      userData.inCreateModeUser.push(event.source.userId);
+      // Add userId to inCreateModeUser array
+      userData.inCreateModeUser.push(userId);
       event.reply(messageTemplate.loginNotifyMessage);
       break;
     }
 
     case 'logout': {
-      userData.userRemove(event.source.userId);
+      userData.userRemove(userId);
       event.reply(messageTemplate.logoutMessage);
       break;
     }
 
     case 'course': {
-      personalData.userLogin(event.source.userId)
+      personalData.userLogin(userId)
         .then((loginResult) => {
           personalData.setSemesterInfo(postback[1], postback[2]);
           personalData.getCourse(loginResult[0], loginResult[1])
@@ -172,7 +181,7 @@ bot.on('postback', (event) => {
     }
 
     case 'score': {
-      personalData.userLogin(event.source.userId)
+      personalData.userLogin(userId)
         .then((loginResult) => {
           personalData.setSemesterInfo(postback[1], postback[2]);
           personalData.getScore(loginResult[0], loginResult[1])
@@ -191,7 +200,7 @@ bot.on('postback', (event) => {
     }
 
     case 'leave': {
-      personalData.userLogin(event.source.userId)
+      personalData.userLogin(userId)
         .then((loginResult) => {
           personalData.setSemesterInfo(postback[1], postback[2]);
           personalData.getLeave(loginResult[0], loginResult[1])
@@ -210,7 +219,7 @@ bot.on('postback', (event) => {
     }
 
     case 'midWarning': {
-      personalData.userLogin(event.reply.userId)
+      personalData.userLogin(userId)
         .then((loginResult) => {
           personalData.setSemesterInfo(postback[1], postback[2]);
           personalData.getMidWarning(loginResult[0], loginResult[1])
