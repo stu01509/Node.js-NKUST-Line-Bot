@@ -40,16 +40,21 @@ const getAdministrativeInfo = () => new Promise((resolve, reject) => {
     } else {
       const $ = cheerio.load(body);
       const result = [];
-      $('#pageptlist > div > div > div > div > h5').each((index, item) => {
+      $('#pageptlist > div > div > div > div > div').each((index, item) => {
         // 只選取前10筆資料
         if (index < 10) {
           const $$ = cheerio.load(item);
           // 日期
           result.push($$('i').text());
           // 標題
-          result.push($$('a').text().replace('\n\t\t\t\t', ''));
+          result.push($$('a').text().replace('\n\t\t\t', ''));
           // 連結
-          result.push($$('a').attr('href'));
+          // 補上 https://www.nkust.edu.tw
+          if (!$$('a').attr('href').includes('http')) {
+            result.push(`https://www.nkust.edu.tw${$$('a').attr('href')}`);
+          } else {
+            result.push($$('a').attr('href'));
+          }
         }
       });
       resolve(['行政公告', ADMINISTRATIVE_URL, result]);
@@ -64,7 +69,7 @@ const getNewsInfo = () => new Promise((resolve, reject) => {
     } else {
       const $ = cheerio.load(body);
       const result = [];
-      $('#pageptlist > div > div > div > div > h5').each((index, item) => {
+      $('#pageptlist > div > div > div > div > div').each((index, item) => {
         if (index < 10) {
           const $$ = cheerio.load(item);
           // 日期
@@ -87,7 +92,7 @@ const getAcademicInfo = () => new Promise((resolve, reject) => {
     } else {
       const $ = cheerio.load(body);
       const result = [];
-      $('#pageptlist > div > div > div > div > h5').each((index, item) => {
+      $('#pageptlist > div > div > div > div > div').each((index, item) => {
         if (index < 10) {
           const $$ = cheerio.load(item);
           // 日期
@@ -110,7 +115,7 @@ const getActivityInfo = () => new Promise((resolve, reject) => {
     } else {
       const $ = cheerio.load(body);
       const result = [];
-      $('#pageptlist > div > div > div > div > h5').each((index, item) => {
+      $('#pageptlist > div > div > div > div > div').each((index, item) => {
         if (index < 10) {
           const $$ = cheerio.load(item);
           // 日期
@@ -133,7 +138,7 @@ const getRecruitInfo = () => new Promise((resolve, reject) => {
     } else {
       const $ = cheerio.load(body);
       const result = [];
-      $('#pageptlist > div > div > div > div > h5').each((index, item) => {
+      $('#pageptlist > div > div > div > div > div').each((index, item) => {
         if (index < 10) {
           const $$ = cheerio.load(item);
           // 日期
