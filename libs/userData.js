@@ -11,11 +11,12 @@ const userCreate = (userId, uid, pwd) => new Promise((resolve, reject) => {
   const insertUserData = new UserSchema({
     userId,
     uid,
-    cipherPwd,
+    pwd: cipherPwd,
   });
 
   insertUserData.save((err, result) => {
     if (err) {
+      console.log(err);
       reject(new Error('登入失敗'));
     } else {
       resolve('登入成功');
