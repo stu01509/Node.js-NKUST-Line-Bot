@@ -1,12 +1,17 @@
+const cryptoJS = require('crypto-js');
 const UserSchema = require('../schema/user/User');
+
+// Loading Config
+require('dotenv').config();
 
 // Record in Login Mode userId
 const inCreateModeUser = [];
 const userCreate = (userId, uid, pwd) => new Promise((resolve, reject) => {
+  const cipherPwd = cryptoJS.AES.encrypt(pwd, process.env.SECRET).toString();
   const insertUserData = new UserSchema({
     userId,
     uid,
-    pwd,
+    cipherPwd,
   });
 
   insertUserData.save((err, result) => {

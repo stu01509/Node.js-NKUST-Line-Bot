@@ -1,5 +1,9 @@
 const request = require('request');
 const cheerio = require('cheerio');
+const cryptoJS = require('crypto-js');
+
+// Loading Config
+require('dotenv').config();
 
 const BASE_URL = 'https://webap.nkust.edu.tw/nkust/';
 const LOGIN_URL = `${BASE_URL}perchk.jsp`;
@@ -82,7 +86,9 @@ const userLogin = userId => new Promise((resolve, reject) => {
     } else if (result === null) {
       resolve('請先登入取得資料');
     } else {
-      resolve([result.uid, result.pwd]);
+      const bytes = cryptoJS.AES.decrypt(result.pwd, process.env.SECRET);
+      const originalPwd = bytes.toString(cryptoJS.enc.Utf8);
+      resolve([result.uid, originalPwd]);
     }
   });
 });
