@@ -70,6 +70,24 @@ const courseSelectMessage = {
         type: 'action',
         action: {
           type: 'postback',
+          label: '109-下',
+          text: '109-下',
+          data: 'course&109&2',
+        },
+      },
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '109-上',
+          text: '109-上',
+          data: 'course&109&1',
+        },
+      },
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
           label: '108-下',
           text: '108-下',
           data: 'course&108&2',
@@ -147,6 +165,24 @@ const scoreSelectMessage = {
   text: '請選擇您要查詢的學期',
   quickReply: {
     items: [
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '109-下',
+          text: '109-下',
+          data: 'score&109&2',
+        },
+      },
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '109-上',
+          text: '109-上',
+          data: 'score&109&1',
+        },
+      },
       {
         type: 'action',
         action: {
@@ -232,6 +268,24 @@ const leaveSelectMessage = {
         type: 'action',
         action: {
           type: 'postback',
+          label: '109-下',
+          text: '109-下',
+          data: 'leave&109&2',
+        },
+      },
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '109-上',
+          text: '109-上',
+          data: 'leave&109&1',
+        },
+      },
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
           label: '108-下',
           text: '108-下',
           data: 'leave&108&2',
@@ -309,6 +363,42 @@ const midWarningSelectMessage = {
   text: '請選擇您要查詢的學期',
   quickReply: {
     items: [
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '109-下',
+          text: '109-下',
+          data: 'midWarning&109&2',
+        },
+      },
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '109-上',
+          text: '109-上',
+          data: 'midWarning&109&1',
+        },
+      },
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '108-下',
+          text: '108-下',
+          data: 'midWarning&108&2',
+        },
+      },
+      {
+        type: 'action',
+        action: {
+          type: 'postback',
+          label: '108-上',
+          text: '108-上',
+          data: 'midWarning&108&1',
+        },
+      },
       {
         type: 'action',
         action: {
